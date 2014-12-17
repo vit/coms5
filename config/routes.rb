@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  namespace :journal do
+    resources :journals
+  end
+
 resources :profile, only: [:show]
   devise_for :users
   root "home#index"
