@@ -1,4 +1,8 @@
-class Journal::JournalsController < ApplicationController
+#class Journal::JournalsController < ApplicationController
+class Journal::JournalsController < Journal::BaseController
+
+  before_action -> { @section_journal_journals = true }
+
   before_action :set_journal_journal, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show]
 
@@ -34,7 +38,7 @@ class Journal::JournalsController < ApplicationController
 
   def update
       @journal_journal.update(journal_params)
-      @journal_journal.user = current_user
+#      @journal_journal.user = current_user
       respond_with(@journal_journal)
   end
 

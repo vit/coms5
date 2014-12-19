@@ -1,0 +1,26 @@
+<div class="page-header">
+  <%= link_to journal_submissions_path(journal_id: @journal_journal.id), :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Back
+  <% end %>
+  <%= link_to edit_journal_submission_path(@journal_submission), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Edit
+  <% end #if current_user.is_admin? %>
+  <h1>Show journal_submission</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Title:</dt>
+  <dd><%= @journal_submission.title %></dd>
+
+  <dt>Abstract:</dt>
+  <dd><%= @journal_submission.abstract %></dd>
+
+  <dt>Journal:</dt>
+  <dd><%= @journal_submission.journal %></dd>
+
+  <dt>User:</dt>
+  <dd><%= @journal_submission.user.full_name %></dd>
+
+</dl>

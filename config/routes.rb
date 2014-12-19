@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :journal do
     resources :journals
+    resources :submissions
   end
 
 resources :profile, only: [:show]

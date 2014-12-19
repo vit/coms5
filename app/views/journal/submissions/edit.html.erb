@@ -1,0 +1,13 @@
+<div class="page-header">
+  <%= link_to journal_submissions_path(journal_id: @journal_journal.id), :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Back
+  <% end %>
+  <%= link_to @journal_submission, :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-info-sign"></span>
+    Show
+  <% end %>
+  <h1>Editing journal_submission</h1>
+</div>
+
+<%= render 'form' %>

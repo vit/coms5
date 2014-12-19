@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141216053743) do
+ActiveRecord::Schema.define(version: 20141218150603) do
 
   create_table "journal_journals", force: true do |t|
     t.string   "title"
@@ -24,6 +24,32 @@ ActiveRecord::Schema.define(version: 20141216053743) do
 
   add_index "journal_journals", ["slug"], name: "index_journal_journals_on_slug", unique: true
   add_index "journal_journals", ["user_id"], name: "index_journal_journals_on_user_id"
+
+  create_table "journal_revisions", force: true do |t|
+    t.integer  "journal_submissions_id"
+    t.integer  "revision_n",             default: 0
+    t.string   "aasm_state"
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+  end
+
+  add_index "journal_revisions", ["journal_submissions_id"], name: "index_journal_revisions_on_journal_submissions_id"
+
+  create_table "journal_submissions", force: true do |t|
+    t.string   "title"
+    t.text     "abstract"
+    t.integer  "user_id"
+    t.integer  "revision_seq",            default: 0
+    t.integer  "last_created_revision",   default: 0
+    t.integer  "last_submitted_revision", default: 0
+    t.string   "aasm_state"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.integer  "journal_id"
+  end
+
+  add_index "journal_submissions", ["journal_id"], name: "index_journal_submissions_on_journal_id"
+  add_index "journal_submissions", ["user_id"], name: "index_journal_submissions_on_user_id"
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "",    null: false

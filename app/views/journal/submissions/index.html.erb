@@ -1,0 +1,40 @@
+<div class="page-header">
+  <%= link_to new_journal_submission_path(journal_id: @journal_journal.id), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    New Journal
+  <% end %>
+  <h1>Listing journal_submissions</h1>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+            <th>Title</th>
+            <th>Abstract</th>
+            <th>User</th>
+            <th></th>
+            <% if current_user.is_admin? %>
+              <th></th>
+              <th></th>
+            <% end %>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%#= render @journal_journals %>
+
+      <%= content_tag_for(:tr, @journal_submissions) do |journal_submission| %>
+            <td><%= journal_submission.title %></td>
+            <td><%= journal_submission.abstract %></td>
+            <td><%= journal_submission.user.full_name %></td>
+            <td><%= link_to 'Show', journal_submission %></td>
+            <% if current_user.is_admin? %>
+                <td><%= link_to 'Edit', edit_journal_submission_path(journal_submission, journal_id: @journal_journal.id) %></td>
+                <td><%= link_to 'Destroy', journal_submission, method: :delete, data: { confirm: 'Are you sure?' }, rremote: true %></td>
+            <% end %>
+      <% end %>
+
+    </tbody>
+  </table>
+</div>
