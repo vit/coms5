@@ -33,7 +33,7 @@ class Journal::SubmissionsController < Journal::BaseController
 
   def edit
     @journal_revision = @journal_submission.get_last_created_revision
-    @file_records = @journal_revision ? %w[:author_file :author_expert_file].map do |type|
+    @file_records = @journal_revision ? %w[author_file author_expert_file].map do |type|
       @journal_revision.get_or_new_file_by_type type
     end : []
 
@@ -52,7 +52,8 @@ class Journal::SubmissionsController < Journal::BaseController
       if @journal_submission.save
         flash[:notice] = 'Submission was successfully created.'
         respond_with(@journal_submission, location: edit_journal_submission_path(@journal_submission))
-        @journal_submission.sm_create_new_revision
+#        @journal_submission.sm_create_new_revision
+        @journal_submission.create_new_revision
 #        @journal_submission.revisions.create
 #        js = Journal::Revision.new(submission: @journal_submission)
 #        js.save
@@ -74,8 +75,9 @@ class Journal::SubmissionsController < Journal::BaseController
 
     @journal_revision = @journal_submission.get_last_created_revision
 
-      @journal_submission.sm_update_draft(submission_update_params)
-        @file_records = @journal_revision ? %w[:author_file :author_expert_file].map do |type|
+#      @journal_submission.sm_update_draft(submission_update_params)
+      @journal_submission.update_draft(submission_update_params)
+        @file_records = @journal_revision ? %w[author_file author_expert_file].map do |type|
           @journal_revision.get_or_new_file_by_type type
         end : []
         puts @file_records.inspect

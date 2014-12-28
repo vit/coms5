@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141222061612) do
+ActiveRecord::Schema.define(version: 20141228074708) do
 
   create_table "journal_journals", force: true do |t|
     t.string   "title"
@@ -50,12 +50,12 @@ ActiveRecord::Schema.define(version: 20141222061612) do
     t.string   "title"
     t.text     "abstract"
     t.integer  "user_id"
-    t.integer  "revision_seq",            default: 0
-    t.integer  "last_created_revision",   default: 0
-    t.integer  "last_submitted_revision", default: 0
+    t.integer  "revision_seq",               default: 0
+    t.integer  "last_created_revision_id"
+    t.integer  "last_submitted_revision_id"
     t.string   "aasm_state"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.integer  "journal_id"
   end
 

@@ -5,6 +5,9 @@ class Journal::Submission < ActiveRecord::Base
   belongs_to :journal
   has_many :revisions
 
+  belongs_to :last_created_revision, class_name: 'Journal::Revision'
+  belongs_to :last_submitted_revision, class_name: 'Journal::Revision'
+
   validates :title, :abstract, presence: true
 
 
@@ -27,28 +30,26 @@ class Journal::Submission < ActiveRecord::Base
     state :rejected
 
 
-    event :sm_update_draft, :before => (-> data {
-      	self.update data
-	}) do
-		transitions :from => :draft, :to => :draft
-		transitions :from => :editorial_draft, :to => :editorial_draft
+#    event :sm_update_draft, :before => (-> data {
+    event :sm_update_draft, :before => (-> {
+#      	self.update data
+    }) do
+		  transitions :from => :draft, :to => :draft
+		  transitions :from => :editorial_draft, :to => :editorial_draft
     end
 
     event :sm_create_new_revision, :guards => [
     		-> {
-    			puts self.last_created_revision
-    			self.last_created_revision == 0
+    			puts self.revision_seq
+    			self.revision_seq == 0
     		}
-#    	], :before => (-> {
-#    		puts "before"
-#    	], :success => (-> {
     	], :after => (-> {
-    		puts "success"
-	    	rn = self.last_created_revision + 1
-    	  	r = self.revisions.build(revision_n: rn)
-      		self.last_created_revision = rn
-	      	r.save
-    	  	self.save
+#    		puts "success"
+   #     self.revision_seq += 1
+  #  	  	r = self.revisions.build(revision_n: self.revision_seq)
+ #     		self.last_created_revision = r
+#	      	r.save
+#    	  	self.save
 		}) do
 			transitions :from => :draft, :to => :draft
 			transitions :from => :editorial_draft, :to => :editorial_draft
@@ -59,8 +60,25 @@ class Journal::Submission < ActiveRecord::Base
 #    end
   end
 
+    def create_new_revision
+        sm_create_new_revision
+        self.revision_seq += 1
+        r = self.revisions.build(revision_n: self.revision_seq)
+        self.last_created_revision = r
+        r.save
+        self.save
+        r
+    end
+
+    def update_draft data
+        sm_update_draft
+        self.update data
+    end
+
+
     def get_last_created_revision
-    	self.revisions.find_by_revision_n(self.last_created_revision)
+#      self.revisions.find_by_revision_n(self.last_created_revision)
+      self.last_created_revision
     end
 
 end

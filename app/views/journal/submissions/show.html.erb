@@ -68,7 +68,20 @@
 
   <ul class="list-group">
 <% @journal_submission.revisions.each do |revision| %>
-    <li class="list-group-item"><%= revision.inspect %></li>
+    <li class="list-group-item">
+      <p>
+        <b>Revision #<%= revision.revision_n %></b>
+        <%#= revision.inspect %>
+      </p>
+      <p>
+        <b>Files:</b>
+        <% revision.submission_files.each do |file| %>
+          <%= link_to file.file_data.url do %>
+            <i class="fa fa-download"></i> <%= file.file_type %>
+          <% end %>
+        <% end %>
+      </p>
+    </li>
 <% end %>
   </ul>
 </div>
