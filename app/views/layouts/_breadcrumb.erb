@@ -1,14 +1,20 @@
 <ol class="breadcrumb">
-	<li><a href="/">Root</a></li>
+	<!-- li><a href="/"><%#= t('journal.breadcrumb.root') %></a></li -->
 
 	<% if @section_journal_journals %>
-		<li><%= link_to('Journals', journal_journals_path)  %></li>
+		<li><%= link_to(t('journal.breadcrumb.journals'), journal_journals_path)  %></li>
 	<% end %>
-	<% if @journal_journal %>
+	<% if @journal_journal && @journal_journal.persisted? %>
 		<li><%= link_to(@journal_journal.title, @journal_journal)  %></li>
 		<% if @section_journal_submissions %>
-			<li><%= link_to('Author Submissions', journal_submissions_path(journal_id: @journal_journal.id))  %></li>
+			<li><%= link_to(t('journal.breadcrumb.author_submissions'), journal_submissions_path(journal_id: @journal_journal.id))  %></li>
 		<% end %>
+
+		<% if @journal_submission && @journal_submission.persisted? %>
+			<li><%= link_to("(%d) " % @journal_submission.id + @journal_submission.title, journal_submission_path(@journal_submission))  %></li>
+		<% end %>
+
+
 
 
 

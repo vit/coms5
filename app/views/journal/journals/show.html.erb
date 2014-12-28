@@ -1,26 +1,44 @@
 <div class="page-header">
   <%= link_to journal_journals_path, :class => 'btn btn-default' do %>
     <span class="glyphicon glyphicon-list-alt"></span>
-    Back
+    <%= t('journal.journals.list_title') %>
   <% end %>
   <%= link_to edit_journal_journal_path(@journal_journal), :class => 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-pencil"></span>
     Edit
-  <% end if current_user.is_admin? %>
-  <h1>Show journal_journal</h1>
+  <% end if current_user && current_user.is_admin? %>
+  <%= link_to @journal_journal, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger' do %>
+    <i class="fa fa-bomb"></i>
+    Destroy
+  <% end if current_user && current_user.is_admin? %>
+
+
+  <!-- h1><%#= t('journal.journal.page_title') %></h1 -->
+  <h1><%= @journal_journal.title %></h1>
 </div>
 
-<dl class="dl-horizontal">
-  <dt>Title:</dt>
-  <dd><%= @journal_journal.title %></dd>
+<p>
+  <%= @journal_journal.description %>
+</p>
 
-  <dt>Description:</dt>
-  <dd><%= @journal_journal.description %></dd>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <a href="<%= journal_submissions_path(journal_id: @journal_journal.id) %>" class='btn btn-xlg btn-success'><i class="fa fa-user"></i><br>Author</a>
+  </div>
+</div>
 
-  <dt>Slug:</dt>
-  <dd><%= @journal_journal.slug %></dd>
+<!-- dl class="dl-horizontal">
+  <dt><%#= t('journal.journal.title') %>:</dt>
+  <dd><%#= @journal_journal.title %></dd>
 
-  <dt>User:</dt>
-  <dd><%= @journal_journal.user.full_name %></dd>
+  <dt><%#= t('journal.journal.description') %>:</dt>
+  <dd><%#= @journal_journal.description %></dd>
 
-</dl>
+  <dt><%#= t('journal.journal.slug') %>:</dt>
+  <dd><%#= @journal_journal.slug %></dd>
+
+  <dt><%#= t('journal.journal.owner') %>:</dt>
+  <dd><%#= @journal_journal.user.full_name %></dd>
+</dl -->
+
+

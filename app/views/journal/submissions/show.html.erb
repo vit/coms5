@@ -7,20 +7,70 @@
     <span class="glyphicon glyphicon-pencil"></span>
     Edit
   <% end #if current_user.is_admin? %>
-  <h1>Show journal_submission</h1>
+  <%= link_to @journal_submission, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger' do %>
+    <i class="fa fa-bomb"></i>
+    Destroy
+  <% end #if current_user && current_user.is_admin? %>
+  <h1><%= t('journal.submission.my_title') %></h1>
 </div>
 
+<!-- dl class="dl-horizontal">
+  <dt>Title:</dt>
+  <dd><%#= @journal_submission.title %></dd>
+
+  <dt>Abstract:</dt>
+  <dd><%#= @journal_submission.abstract %></dd>
+
+  <dt>Journal:</dt>
+  <dd><%#= @journal_submission.journal %></dd>
+
+  <dt>User:</dt>
+  <dd><%#= @journal_submission.user.full_name %></dd>
+
+  <dt>Revisions:</dt>
+  <dd><%#= @journal_submission.revisions.to_a.inspect %></dd>
+
+</dl -->
+
+
+<div class="panel panel-default">
+  <!-- div class="panel-heading">
+<dl class="dl-horizontal">
+  <dt>Title:</dt>
+  <dd><%#= @journal_submission.title %></dd>
+  <dt>Abstract:</dt>
+  <dd><%#= @journal_submission.abstract %></dd>
+  <dt>Owner:</dt>
+  <dd><%#= @journal_submission.user.full_name %></dd>
+</dl>
+  </div -->
+  <div class="panel-heading">
+<dl class="dl-horizontal">
+    <dt>Id:</dt>
+    <dd><%= @journal_submission.id %></dd>
+    <dt>State:</dt>
+    <dd><%= @journal_submission.aasm_state %></dd>
+</dl>
+  </div>
+  <div class="panel-body">
 <dl class="dl-horizontal">
   <dt>Title:</dt>
   <dd><%= @journal_submission.title %></dd>
-
   <dt>Abstract:</dt>
   <dd><%= @journal_submission.abstract %></dd>
-
-  <dt>Journal:</dt>
-  <dd><%= @journal_submission.journal %></dd>
-
-  <dt>User:</dt>
-  <dd><%= @journal_submission.user.full_name %></dd>
-
 </dl>
+<dl class="dl-horizontal">
+    <%# @journal_submission. %>
+    <dt>State:</dt>
+    <dd><%= @journal_submission.aasm_state %></dd>
+</dl>
+  </div>
+
+  <ul class="list-group">
+<% @journal_submission.revisions.each do |revision| %>
+    <li class="list-group-item"><%= revision.inspect %></li>
+<% end %>
+  </ul>
+</div>
+
+

@@ -4,4 +4,8 @@ class Journal::Journal < ActiveRecord::Base
 
   validates :title, :description, :slug, presence: true
   validates :slug, uniqueness: true
+
+#  def create_submission data
+#  end
+
 end

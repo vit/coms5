@@ -32,20 +32,57 @@ class Journal::SubmissionsController < Journal::BaseController
   end
 
   def edit
+    @journal_revision = @journal_submission.get_last_created_revision
+    @file_records = @journal_revision ? %w[:author_file :author_expert_file].map do |type|
+      @journal_revision.get_or_new_file_by_type type
+    end : []
+
+    puts @file_records.inspect
+
     #redirect_to action: 'index' unless current_user.is_admin?
   end
 
   def create
-      @journal_submission = Journal::Submission.new(submission_create_params)
-      @journal_submission.user = current_user
-#      @journal_submission.journal = @journal_journal
-      flash[:notice] = 'Submission was successfully created.' if @journal_submission.save
-#      @journal_journal = @journal_submission.journal
-    respond_with(@journal_submission)
+      data = submission_create_params.merge user: current_user
+      journal_id = data.delete :journal_id
+      @journal_journal = Journal::Journal.find journal_id
+      @journal_submission = @journal_journal.submissions.new(data)
+#      flash[:notice] = 'Submission was successfully created.' if @journal_submission.save
+
+      if @journal_submission.save
+        flash[:notice] = 'Submission was successfully created.'
+        respond_with(@journal_submission, location: edit_journal_submission_path(@journal_submission))
+        @journal_submission.sm_create_new_revision
+#        @journal_submission.revisions.create
+#        js = Journal::Revision.new(submission: @journal_submission)
+#        js.save
+      else
+        respond_with(@journal_submission)
+      end
+
+#    respond_with(@journal_submission)
+#    respond_with(@journal_submission, location: edit_journal_submission_path(@journal_submission), action: :new )
+#    respond_with(@journal_submission, action: :new )
+#    respond_with(@journal_submission, location: edit_journal_submission_path(@journal_submission))
+#    respond_with(@journal_submission, location: edit_journal_submission_path)
   end
 
   def update
-      @journal_submission.update(submission_update_params)
+#      @journal_submission.update(submission_update_params)
+#      @journal_submission.update_draft(:draft, submission_update_params)
+      #unless
+
+    @journal_revision = @journal_submission.get_last_created_revision
+
+      @journal_submission.sm_update_draft(submission_update_params)
+        @file_records = @journal_revision ? %w[:author_file :author_expert_file].map do |type|
+          @journal_revision.get_or_new_file_by_type type
+        end : []
+        puts @file_records.inspect
+      #end
+
+      #@file_records = []
+
     respond_with(@journal_submission)
   end
 

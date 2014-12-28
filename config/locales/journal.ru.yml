@@ -1,0 +1,26 @@
+ru:
+  journal:
+    breadcrumb:
+      root: Наверх
+      journals: Журналы
+      author_submissions: Мои статьи
+    nav:
+      home: Начало
+      journals: Журналы
+      my_profile: Мой профиль
+      logout: Выход
+      login: Вход
+    journals:
+      list_title: Список журналов
+    journal:
+      title: Название
+      description: Описание
+      slug: Slug
+      owner: Владелец
+    submissions:
+      add_new: Новая статья
+      my_list_title: Мои статьи
+    submission:
+      my_title: Моя статья
+      new_paper: Новая статья
+      edit_paper: Изменение статьи

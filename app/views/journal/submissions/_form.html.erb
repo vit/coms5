@@ -1,18 +1,13 @@
-<%= form_for(@journal_submission, :html => { :class => "form-horizontal", :role => "form" }) do |f| %>
-<%#= form_for(@journal_submission, :journal_id => @journal_journal.id, :html => { :class => "form-horizontal", :role => "form" }) do |f| %>
-<%#= form_for([@journal_journal, @journal_submission], :html => { :class => "form-horizontal", :role => "form" }) do |f| %>
-  <% if @journal_submission.errors.any? %>
-    <div class="alert alert-danger alert-dismissable" role="alert">
-      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-      <h4><%= pluralize(@journal_submission.errors.count, "error") %> prohibited this journal_submission from being saved:</h4>
 
-      <ul>
-      <% @journal_submission.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<div class="panel ppanel-default panel-primary ccol-sm-offset-2 ccol-sm-10">
+  <div class="panel-heading">
+    <h3 class="panel-title">Submission text data</h3>
+  </div>
+  <div class="panel-body">
+
+<%= form_for(@journal_submission, :html => { :class => "form-horizontal", :role => "form" }) do |f| %>
+
+  <%= render partial: 'common/forms/form_error_alert', locals: {form_model: @journal_submission} %>
 
       <%= f.hidden_field :journal_id, :class => "form-control" %>
   <div class="form-group">
@@ -33,3 +28,5 @@
     </div>
   </div>
 <% end %>
+
+</div>

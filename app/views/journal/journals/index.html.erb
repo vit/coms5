@@ -2,43 +2,54 @@
   <%= link_to new_journal_journal_path, :class => 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-plus"></span>
     New Journal
-  <% end if current_user.is_admin? %>
-  <h1>Listing journal_journals</h1>
+  <% end if current_user && current_user.is_admin? %>
+  <h1><%= t('journal.journals.list_title') %></h1>
 </div>
 
-<div class="table-responsive">
+
+<div class="list-group">
+  <% @journal_journals.each do |journal_journal| %>
+    <%= link_to(journal_journal, class: "list-group-item") do %>
+      <h4 class="list-group-item-heading"><%= journal_journal.title %></h4>
+      <p class="list-group-item-text"><%= journal_journal.description %></p>
+    <% end %>
+  <% end %>
+</div>
+
+
+<!-- div class="table-responsive">
   <table class="table table-striped table-bordered table-hover">
     <thead>
       <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Slug</th>
-            <th>User</th>
-            <th></th>
-            <% if current_user.is_admin? %>
+            <th><%#= t('journal.journals.title') %></th>
+            <th><%#= t('journal.journals.description') %></th>
+            <th><%#= t('journal.journals.slug') %></th>
+            <th><%#= t('journal.journals.owner') %></th>
+            <%# if current_user && current_user.is_admin? %>
               <th></th>
               <th></th>
-            <% end %>
+            <%# end %>
             <th></th>
       </tr>
     </thead>
 
     <tbody>
-      <%#= render @journal_journals %>
 
-      <%= content_tag_for(:tr, @journal_journals) do |journal_journal| %>
-            <td><%= journal_journal.title %></td>
-            <td><%= journal_journal.description %></td>
-            <td><%= journal_journal.slug %></td>
-            <td><%= journal_journal.user.full_name %></td>
-            <td><%= link_to 'Show', journal_journal %></td>
-            <% if current_user.is_admin? %>
-                <td><%= link_to 'Edit', edit_journal_journal_path(journal_journal) %></td>
-                <td><%= link_to 'Destroy', journal_journal, method: :delete, data: { confirm: 'Are you sure?' }, rremote: true %></td>
-            <% end %>
-            <td><%= link_to 'My Submissions', journal_submissions_path(journal_id: journal_journal.id) %></td>
-      <% end %>
+      <%#= content_tag_for(:tr, @journal_journals) do |journal_journal| %>
+            <td><%#= link_to journal_journal do %>
+              <i class="fa fa-hand-o-right"></i> <%#= journal_journal.title %>
+            <%# end %></td>
+            <td><%#= journal_journal.description %></td>
+            <td><%#= journal_journal.slug %></td>
+            <td><%#= journal_journal.user.full_name %></td>
+            <%# if current_user && current_user.is_admin? %>
+                <td><%#= link_to 'Edit', edit_journal_journal_path(journal_journal) %></td>
+                <td><%#= link_to 'Destroy', journal_journal, method: :delete, data: { confirm: 'Are you sure?' }, rremote: true %></td>
+            <%# end %>
+            <td><%#= link_to 'My Submissions', journal_submissions_path(journal_id: journal_journal.id) %></td>
+      <%# end %>
 
     </tbody>
   </table>
-</div>
+</div -->
+

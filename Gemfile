@@ -49,4 +49,10 @@ gem 'autoprefixer-rails'
 gem 'bcrypt', '~> 3.1.7'
 gem 'devise'
 gem 'devise-i18n-views', '~> 0.3.2'
+
+gem 'aasm'
+gem 'carrierwave'
+
 gem 'eidos', '~> 0.0.0'
+
+

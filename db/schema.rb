@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141218150603) do
+ActiveRecord::Schema.define(version: 20141222061612) do
 
   create_table "journal_journals", force: true do |t|
     t.string   "title"
@@ -26,14 +26,25 @@ ActiveRecord::Schema.define(version: 20141218150603) do
   add_index "journal_journals", ["user_id"], name: "index_journal_journals_on_user_id"
 
   create_table "journal_revisions", force: true do |t|
-    t.integer  "journal_submissions_id"
-    t.integer  "revision_n",             default: 0
+    t.integer  "submission_id"
+    t.integer  "revision_n",    default: 0
     t.string   "aasm_state"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
-  add_index "journal_revisions", ["journal_submissions_id"], name: "index_journal_revisions_on_journal_submissions_id"
+  add_index "journal_revisions", ["submission_id"], name: "index_journal_revisions_on_submission_id"
+
+  create_table "journal_submission_files", force: true do |t|
+    t.string   "file_data"
+    t.string   "file_type"
+    t.integer  "revision_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "journal_submission_files", ["revision_id", "file_type"], name: "index_journal_submission_files_revision_type", unique: true
+  add_index "journal_submission_files", ["revision_id"], name: "index_journal_submission_files_on_revision_id"
 
   create_table "journal_submissions", force: true do |t|
     t.string   "title"

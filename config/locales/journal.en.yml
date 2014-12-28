@@ -1,0 +1,26 @@
+en:
+  journal:
+    breadcrumb:
+      root: Root
+      journals: Journals
+      author_submissions: My Papers
+    nav:
+      home: Home
+      journals: Journals
+      my_profile: My profile
+      logout: Logout
+      login: Login
+    journals:
+      list_title: Journals list
+    journal:
+      title: Title
+      description: Description
+      slug: Slug
+      owner: Owner
+    submissions:
+      add_new: New Paper
+      my_list_title: My Papers
+    submission:
+      my_title: My Paper
+      new_paper: New Paper
+      edit_paper: Edit Paper

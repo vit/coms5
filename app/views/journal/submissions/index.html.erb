@@ -1,40 +1,45 @@
 <div class="page-header">
   <%= link_to new_journal_submission_path(journal_id: @journal_journal.id), :class => 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-plus"></span>
-    New Journal
+    <%= t('journal.submissions.add_new') %>
   <% end %>
-  <h1>Listing journal_submissions</h1>
+  <h1><%= t('journal.submissions.my_list_title') %></h1>
 </div>
+
+<div class="list-group">
+  <% @journal_submissions.each do |journal_submission| %>
+    <%= link_to(journal_submission, class: "list-group-item") do %>
+      <h4 class="list-group-item-heading"><%= journal_submission.title %></h4>
+      <p class="list-group-item-text"><%= journal_submission.abstract %></p>
+      <p class="list-group-item-text">
+        <b>Id: </b><%= journal_submission.id %><br/>
+        <b>State: </b><%= journal_submission.aasm_state %><br/>
+      </p>
+    <% end %>
+  <% end %>
+</div>
+
 
 <div class="table-responsive">
   <table class="table table-striped table-bordered table-hover">
-    <thead>
-      <tr>
-            <th>Title</th>
-            <th>Abstract</th>
-            <th>User</th>
-            <th></th>
-            <% if current_user.is_admin? %>
-              <th></th>
-              <th></th>
-            <% end %>
-      </tr>
-    </thead>
-
     <tbody>
-      <%#= render @journal_journals %>
-
-      <%= content_tag_for(:tr, @journal_submissions) do |journal_submission| %>
-            <td><%= journal_submission.title %></td>
-            <td><%= journal_submission.abstract %></td>
-            <td><%= journal_submission.user.full_name %></td>
-            <td><%= link_to 'Show', journal_submission %></td>
-            <% if current_user.is_admin? %>
-                <td><%= link_to 'Edit', edit_journal_submission_path(journal_submission, journal_id: @journal_journal.id) %></td>
-                <td><%= link_to 'Destroy', journal_submission, method: :delete, data: { confirm: 'Are you sure?' }, rremote: true %></td>
-            <% end %>
+      <%= '' or content_tag_for(:tr, @journal_submissions) do |journal_submission| %>
+            <td>
+              <dl>
+                <dt>Title</dt>
+                <dd><%= journal_submission.title %></dd>
+                <!--dt>Abstract</dt>
+                <dd><%#= journal_submission.abstract %></dd>
+                <dt>Owner</dt>
+                <dd><%#= journal_submission.user.full_name %></dd-->
+              </dl>
+            </td>
+            <td>
+              <%= link_to 'Show', journal_submission %><br/>
+              <%= link_to 'Edit', edit_journal_submission_path(journal_submission, journal_id: @journal_journal.id) %><br/>
+              <%= link_to 'Destroy', journal_submission, method: :delete, data: { confirm: 'Are you sure?' }, rremote: true %>
+            </td>
       <% end %>
-
     </tbody>
   </table>
 </div>
