@@ -7,8 +7,12 @@ class User < ActiveRecord::Base
 
   has_many :submissions, class_name: 'Journal::Submission'
 
+  validates :first_name, :first_name, presence: true
+
+
 	def full_name
-		self.email
+#		self.email + ' ' + (self.first_name || '') + ' ' + (self.last_name || '')
+		self.first_name && self.last_name ? self.first_name + ' ' + self.last_name : self.email
 	end
 	def is_admin?
 		self.is_admin
