@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   namespace :journal do
     resources :journals
     resources :submissions
+    resources :appointments
     resources :submission_files
   end
 

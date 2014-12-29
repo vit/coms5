@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141228163725) do
+ActiveRecord::Schema.define(version: 20141228174527) do
+
+  create_table "journal_appointments", force: true do |t|
+    t.integer "journal_id"
+    t.integer "user_id"
+    t.string  "role_name"
+  end
+
+  add_index "journal_appointments", ["journal_id", "user_id", "role_name"], name: "index_journal_appointments_journal_user_role", unique: true
+  add_index "journal_appointments", ["journal_id"], name: "index_journal_appointments_on_journal_id"
+  add_index "journal_appointments", ["user_id"], name: "index_journal_appointments_on_user_id"
 
   create_table "journal_journals", force: true do |t|
     t.string   "title"

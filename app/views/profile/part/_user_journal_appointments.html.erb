@@ -1,0 +1,30 @@
+
+<% my_journals = current_user ? current_user.owned_and_managed_journals.map {|j| [j.title, j.id] } : [] %>
+
+<h3>Journal appointments</h3>
+
+<ul class="list-group">
+<% user.journal_appointments.each do |a| %>
+    <li class="list-group-item">
+        <% if current_user and a.journal.owned_or_managed_by? current_user %>
+            <%= link_to a, class: 'pull-right btn btn-default btn-xs', method: :delete, data: { confirm: 'Are you sure?' }  , rremote: true do %>
+                <i class="fa fa-times"></i>
+            <% end %>
+        <% end %>
+        <%= a.role_name + ': ' + a.journal.title %>
+    </li>
+<% end %>
+</ul>
+
+<% if !my_journals.empty? %>
+    <%= form_for(Journal::Appointment.new(user: user), :html => {:class => "form-inline", :role => "form" }) do |f| %>
+        <%= f.hidden_field :user_id %>
+        <div class="form-group">
+            <%= f.select :role_name, options_for_select(Journal::Appointment::RoleNames), :class => "form-control" %>
+        </div>
+        <div class="form-group">
+            <%= f.select :journal_id, options_for_select(my_journals), :class => "form-control" %>
+        </div>
+        <button type="submit" class="btn btn-default btn-xs">Add</button>
+    <% end %>
+<% end %>

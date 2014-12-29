@@ -5,7 +5,9 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  has_many :journals, class_name: 'Journal::Journal'
   has_many :submissions, class_name: 'Journal::Submission'
+  has_many :journal_appointments, class_name: 'Journal::Appointment'
 
   validates :first_name, :first_name, presence: true
 
@@ -16,6 +18,17 @@ class User < ActiveRecord::Base
 	end
 	def is_admin?
 		self.is_admin
+	end
+
+	def owned_journals
+		journals
+	end
+	def managed_journals
+		journal_appointments.where(role_name: 'chief_editor').map(&:journal)
+	end
+	def owned_and_managed_journals
+		owned_journals | managed_journals
+		#managed_journals
 	end
 
 end
