@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   has_many :submissions, class_name: 'Journal::Submission'
   has_many :journal_appointments, class_name: 'Journal::Appointment'
 
-  validates :first_name, :first_name, presence: true
+  validates :first_name, :last_name, presence: true
 
 
 	def full_name

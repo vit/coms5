@@ -1,9 +1,13 @@
-@import "bootstrap-variables.scss";
-@import "bootstrap-sprockets.scss";
-@import "bootstrap.scss";
+//@import "bootstrap-variables.scss";
+//@import "bootstrap-sprockets.scss";
+//@import "bootstrap.scss";
+
+//$navbar-margin-bottom: 0px;
+
 
 body {
-  padding-top: $navbar-height + 10px;
+//  padding-top: $navbar-height + 10px;
+  padding-top: $navbar-height + 0px;
 }
 
 .page-header {
@@ -20,4 +24,51 @@ input[type="radio"], input[type="checkbox"] {
   width: initial;
   height: initial;
   margin-top: 7px;
+}
+
+// ==============================================
+
+body {
+//    top: 0px;
+//    margin-top: 0;
+//    padding-top: 0;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+a {
+//  color: #000;
+  &:visited {
+//    color: #666;
+  }
+  &:hover {
+//    color: #fff;
+//    background-color: #000;
+    text-decoration: none;
+  }
+}
+
+
+
+.navbar {
+//  border: thin solid red;
+//  border-color: red;
+//  margin-bottom: 0px;
+//  margin: 0px;
+//  position: inherit;
+//  top: 0px;
+  border: none;
+}
+
+
+
+.breadcrumb {
+//  border-color: red;
+//  border-width: thin;
+//  border-style: solid;
+//  border-radius: 0;
+//  margin-top: 0px;
+//  margin: 0px;
+//  border: none;
 }

@@ -23,7 +23,29 @@
 
 <div class="panel panel-default">
   <div class="panel-body">
-    <a href="<%= journal_submissions_path(journal_id: @journal_journal.id) %>" class='btn btn-xlg btn-success'><i class="fa fa-user"></i><br>Author</a>
+    <!--
+    <%#= link_to journal_submissions_path(journal_id: @journal_journal.id), class: 'btn btn-xlg btn-success' do %>
+      <i class="fa fa-user"></i><br>
+      Author
+    <%# end %>
+    -->
+
+    <%
+      all_roles = [
+        {name: 'chief_editor', path: journal_submissions_path(journal_id: @journal_journal.id)},
+        {name: 'reviewer', path: journal_submissions_path(journal_id: @journal_journal.id)},
+        {name: 'author', path: journal_submissions_path(journal_id: @journal_journal.id)}
+      ]
+      my_roles = ['author'] | @journal_journal.user_roles(current_user)
+    %>
+
+    <% all_roles.each do |role| %>
+      <%= link_to role[:path], class: 'btn btn-xlg btn-success' do %>
+        <i class="fa fa-user"></i><br>
+        <%= t('journal.role.name.'+role[:name]) %>
+      <% end if my_roles.include?(role[:name]) %>
+    <% end %>
+
   </div>
 </div>
 
