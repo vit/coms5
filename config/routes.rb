@@ -4,6 +4,8 @@ Rails.application.routes.draw do
     resources :submissions
     resources :appointments
     resources :submission_files
+    get 'ce' => 'chief_editor_office#index'
+    get 'r' => 'reviewer_office#index'
   end
 
 resources :profile, only: [:show]

@@ -32,8 +32,8 @@
 
     <%
       all_roles = [
-        {name: 'chief_editor', path: journal_submissions_path(journal_id: @journal_journal.id)},
-        {name: 'reviewer', path: journal_submissions_path(journal_id: @journal_journal.id)},
+        {name: 'chief_editor', path: journal_ce_path(journal_id: @journal_journal.id)},
+        {name: 'reviewer', path: journal_r_path(journal_id: @journal_journal.id)},
         {name: 'author', path: journal_submissions_path(journal_id: @journal_journal.id)}
       ]
       my_roles = ['author'] | @journal_journal.user_roles(current_user)
