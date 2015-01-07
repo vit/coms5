@@ -1,10 +1,14 @@
 <div class="page-header">
   <%= link_to journal_submissions_path(journal_id: @journal_journal.id), :class => 'btn btn-default' do %>
-    <span class="glyphicon glyphicon-list-alt"></span>
-    Back
+    <!-- span class="glyphicon glyphicon-list-alt"></span -->
+    <!-- i class="fa fa-list fa-lg"></i -->
+    <i class="fa fa-level-up fa-lg"></i>
+    Papers list
   <% end %>
   <%= link_to @journal_submission, :class => 'btn btn-primary' do %>
-    <span class="glyphicon glyphicon-info-sign"></span>
+    <!-- span class="glyphicon glyphicon-info-sign"></span -->
+    <!-- i class="fa fa-info fa-lg"></i -->
+    <i class="fa fa-arrow-left fa-lg"></i>
     Show
   <% end %>
   <h1><%= t('journal.submission.edit_paper') %></h1>

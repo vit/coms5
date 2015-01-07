@@ -13,56 +13,20 @@
 		<% if @journal_submission && @journal_submission.persisted? %>
 			<li><%= link_to("(%d) " % @journal_submission.id + @journal_submission.title, journal_submission_path(@journal_submission))  %></li>
 		<% end %>
+	<% end %>
 
+<%#= controller_name %>
 
-
-
-
-
-		<% if @current_role == 'a_office' %>
-			<li><%= link_to('Author office', rc_context_a_office_index_path(@context))  %></li>
-			<% if @draft && @draft.persisted? %>
-				<li><%= link_to('Draft "'+ (@draft.data ? text_cut(@draft.data.title.to_s, 50) : '') +'"' , edit_rc_context_a_office_path(@context, @draft))  %></li>
+	<% if @journal && @journal.persisted? %>
+		<li><%= link_to(@journal.title, @journal) %></li>
+		<% if @section_journal_chief_editor_office %>
+			<li><%= link_to(t('journal.breadcrumb.ce_office_title'), journal_ce_path(journal_id: @journal.id)) %></li>
+			<% if @submission && @submission.persisted? %>
+				<li><%= link_to("(%d) " % @submission.id + @submission.title, journal_ce_submission_path(@submission))  %></li>
 			<% end %>
-			<% if @paper && @paper.persisted? %>
-				<li><%= link_to('Paper '+ ("%010d" % @paper.paper_cnt) , rc_context_a_paper_path(@context, @paper))  %></li>
-			<% end %>
-		<% end %>
-		<% if @current_role == 'ce_office' %>
-			<li><%= link_to('Chief editor office', rc_context_ce_office_index_path(@context))  %></li>
-			<% if @paper && @paper.persisted? %>
-				<li><%= link_to('Paper '+ ("%010d" % @paper.paper_cnt) , rc_context_ce_paper_path(@context, @paper))  %></li>
-			<% end %>
-		<% end %>
-		<% if @current_role == 'e_office' %>
-			<li><%= link_to('Editor office', rc_context_e_office_index_path(@context))  %></li>
-			<% if @paper && @paper.persisted? %>
-				<li><%= link_to('Paper '+ ("%010d" % @paper.paper_cnt) , rc_context_e_paper_path(@context, @paper))  %></li>
-				<% if @revision %>
-					<!-- li><%#= link_to('Revision '+ ("%d" % @revision.revision_cnt.to_s) , rc_context_e_paper_e_revision_path(@context, @paper, @revision))  %></li -->
-					<li><%= link_to('Revision '+ ("%d" % @revision.revision_cnt.to_s) , rc_e_revision_path(@revision))  %></li>
-				<% end %>
-			<% end %>
-		<% end %>
-		<% if @current_role == 'r_office' %>
-			<li><%= link_to('Reviewer office', rc_context_r_office_index_path(@context))  %></li>
-			<% if @paper %>
-				<li><%= link_to('Paper '+("%010d" % @paper.paper_cnt), rc_r_paper_path(@paper))  %></li>
-				<% if @revision %>
-					<li><%= link_to('Revision '+ ("%d" % @revision.revision_cnt.to_s) , rc_r_revision_path(@revision))  %></li>
-				<% end %>
-			<% end %>
-			<%# if @invitation %>
-				<!-- li><%#= link_to('Invitation for '+("%010d" % @invitation.paper.paper_cnt), rc_context_r_invitation_path(@context, @invitation))  %></li -->
-			<%# end %>
-			<%# if @reviewer_task %>
-				<!-- li><%#= link_to('Task for '+("%010d" % @reviewer_task.revision.paper.paper_cnt) +'-'+ ("%d" % @reviewer_task.revision.revision_cnt.to_s), rc_context_r_revision_reviewer_task_path(@context, @reviewer_task))  %></li -->
-			<%# end %>
-		<% end %>
-		<% if @current_role == 'o_office' %>
-			<li><%= link_to('Owner office', rc_context_o_office_index_path(@context))  %></li>
 		<% end %>
 
 	<% end %>
+
 
 </ol>

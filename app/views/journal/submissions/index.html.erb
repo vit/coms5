@@ -1,5 +1,5 @@
 <div class="page-header">
-  <%= link_to new_journal_submission_path(journal_id: @journal_journal.id), :class => 'btn btn-primary' do %>
+  <%= link_to new_journal_submission_path(journal_id: @journal_journal.id), :class => 'btn btn-primary bbtn-material-red' do %>
     <span class="glyphicon glyphicon-plus"></span>
     <%= t('journal.submissions.add_new') %>
   <% end %>
@@ -20,26 +20,62 @@
 </div>
 
 
-<div class="table-responsive">
-  <table class="table table-striped table-bordered table-hover">
-    <tbody>
-      <%= '' or content_tag_for(:tr, @journal_submissions) do |journal_submission| %>
-            <td>
-              <dl>
-                <dt>Title</dt>
-                <dd><%= journal_submission.title %></dd>
-                <!--dt>Abstract</dt>
-                <dd><%#= journal_submission.abstract %></dd>
-                <dt>Owner</dt>
-                <dd><%#= journal_submission.user.full_name %></dd-->
-              </dl>
-            </td>
-            <td>
-              <%= link_to 'Show', journal_submission %><br/>
-              <%= link_to 'Edit', edit_journal_submission_path(journal_submission, journal_id: @journal_journal.id) %><br/>
-              <%= link_to 'Destroy', journal_submission, method: :delete, data: { confirm: 'Are you sure?' }, rremote: true %>
-            </td>
-      <% end %>
-    </tbody>
-  </table>
+
+
+    <!-- a href="#" class="btn bbtn-default btn-primary" data-toggle="modal" data-target="#basicModal">
+      <i class="fa fa-plus"></i> Attach File
+    </a>
+
+<div class="modal ffade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body" sstyle="overflow:auto;">
+                <h3>Modal Body</h3>
+<div style='overflow-x: scroll;'>
+<div style='display:table;'>
+
+
+<div ng-repeat="a in files" style="border: 1px solid; ffloat: left; margin: 10px; display: table-cell;">
+  <img class="mmedia-object iimg-thumbnail" ng-src='{{a.data.thumb_url}}'>
+  <p>
+    <button type="button" class="btn btn-default btn-sm" ng-click="a.add()">Attach {{a.data.filename}}</button>
+  </p>
 </div>
+
+</div>
+</div>
+
+<form>
+  <input id="fileupload" type="file" ng-file-select="onFileSelect($files)" style='display: none;' accept="application/pdf">
+
+<div class="input-append">
+    <a href="#" class="btn btn-default btn-sm" onclick="$('input[id=fileupload]').click();">
+      <i class="fa fa-upload"></i> Upload new file
+    </a>
+</div>
+
+<div id="fileuploadprogress" class="progress">
+  <div class="progress-bar" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+    <span cclass="sr-only"><i class="fa fa-spin fa-spinner"></i></span>
+  </div>
+</div>
+
+
+</form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+  </div>
+</div -->
+
+
+
+
+

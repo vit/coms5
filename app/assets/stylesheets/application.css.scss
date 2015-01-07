@@ -15,8 +15,25 @@
  * require_self
  */
 
+  //@import "compass";
 @import "bootstrap-variables.scss";
+  //@import "themes/yeti/_variables";
+  //@import "themes/yeti/_bootswatch";
 @import "bootstrap-sprockets.scss";
 @import "bootstrap.scss";
 @import "bootstrap-generators.scss";
+  //@import "bootstrap-modal";
+@import "themes/yeti/bootstrap";
+  //@import "themes/yeti/_variables";
+
+//@import "bootstrap-material-design/index";
+
+//@import "bootstrap-material-design/material";
+//@import "bootstrap-material-design/ripples";
+//@import "bootstrap-material-design/snackbar";
+//@import "bootstrap-material-design/material-wfont";
+
+//@import "bootstrap-material-design";
 //@import "scaffolds.scss";
+
+

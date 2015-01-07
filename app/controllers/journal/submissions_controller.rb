@@ -32,7 +32,8 @@ class Journal::SubmissionsController < Journal::BaseController
   end
 
   def edit
-    @journal_revision = @journal_submission.get_last_created_revision
+#    @journal_revision = @journal_submission.get_last_created_revision
+    @journal_revision = @journal_submission.last_created_revision
     @file_records = @journal_revision ? %w[author_file author_expert_file].map do |type|
       @journal_revision.get_or_new_file_by_type type
     end : []
@@ -47,49 +48,43 @@ class Journal::SubmissionsController < Journal::BaseController
       journal_id = data.delete :journal_id
       @journal_journal = Journal::Journal.find journal_id
       @journal_submission = @journal_journal.submissions.new(data)
-#      flash[:notice] = 'Submission was successfully created.' if @journal_submission.save
-
       if @journal_submission.save
         flash[:notice] = 'Submission was successfully created.'
+        @journal_submission.sm_init!
         respond_with(@journal_submission, location: edit_journal_submission_path(@journal_submission))
-#        @journal_submission.sm_create_new_revision
-        @journal_submission.create_new_revision
-#        @journal_submission.revisions.create
-#        js = Journal::Revision.new(submission: @journal_submission)
-#        js.save
       else
         respond_with(@journal_submission)
       end
-
-#    respond_with(@journal_submission)
-#    respond_with(@journal_submission, location: edit_journal_submission_path(@journal_submission), action: :new )
-#    respond_with(@journal_submission, action: :new )
-#    respond_with(@journal_submission, location: edit_journal_submission_path(@journal_submission))
-#    respond_with(@journal_submission, location: edit_journal_submission_path)
   end
 
   def update
-#      @journal_submission.update(submission_update_params)
-#      @journal_submission.update_draft(:draft, submission_update_params)
-      #unless
-
-    @journal_revision = @journal_submission.get_last_created_revision
-
-#      @journal_submission.sm_update_draft(submission_update_params)
-      @journal_submission.update_draft(submission_update_params)
+#    @journal_revision = @journal_submission.get_last_created_revision
+    @journal_revision = @journal_submission.last_created_revision
+      data = submission_update_params
+      if data
+#        @journal_submission.update_draft(data)
+        @journal_submission.sm_update!(data)
         @file_records = @journal_revision ? %w[author_file author_expert_file].map do |type|
           @journal_revision.get_or_new_file_by_type type
         end : []
         puts @file_records.inspect
-      #end
+      end
 
-      #@file_records = []
+      case params[:op]
+      when 'submit'
+#        @journal_submission.submit_paper
+        @journal_submission.sm_submit! # '1234567'
+      when 'unsubmit'
+#        @journal_submission.unsubmit_paper
+        @journal_submission.sm_unsubmit!
+      end
 
     respond_with(@journal_submission)
   end
 
   def destroy
-    @journal_submission.destroy
+#    @journal_submission.destroy_draft
+    @journal_submission.sm_destroy!
     respond_with(@journal_submission) do |format|
       format.html { redirect_to journal_submissions_path(journal_id: @journal_journal.id) }
     end
@@ -110,6 +105,7 @@ class Journal::SubmissionsController < Journal::BaseController
       params.require(:journal_submission).permit(:title, :abstract, :journal_id)
     end
     def submission_update_params
-      params.require(:journal_submission).permit(:title, :abstract)
+#      params[:journal_submission] ? params.require(:journal_submission).permit(:title, :abstract) : nil
+      params.require(:journal_submission).permit(:title, :abstract) rescue nil
     end
 end

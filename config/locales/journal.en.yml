@@ -4,6 +4,7 @@ en:
       root: Root
       journals: Journals
       author_submissions: My Papers
+      ce_office_title: Chief Editor
     nav:
       home: Home
       journals: Journals
@@ -24,3 +25,5 @@ en:
       my_title: My Paper
       new_paper: New Paper
       edit_paper: Edit Paper
+    ce:
+      list_title: Submitted Papers

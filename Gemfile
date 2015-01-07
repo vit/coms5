@@ -53,6 +53,10 @@ gem 'devise-i18n-views', '~> 0.3.2'
 gem 'aasm'
 gem 'carrierwave'
 
+#gem 'bootstrap-material-design'
+#gem 'bootstrap-modal-rails'
+#gem 'compass-rails'
+
 gem 'eidos', '~> 0.0.0'
 
 

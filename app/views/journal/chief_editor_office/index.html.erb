@@ -1,0 +1,24 @@
+<div class="page-header">
+<!--
+  <%#= link_to new_journal_submission_path(journal_id: @journal_journal.id), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    <%#= t('journal.submissions.add_new') %>
+  <%# end %>
+ -->
+<h1><%= t('journal.ce.list_title') %></h1>
+</div>
+
+<div class="list-group">
+  <% @journal_submissions.each do |submission| %>
+    <%= link_to(journal_ce_submission_path(submission), class: "list-group-item") do %>
+      <h4 class="list-group-item-heading"><%= submission.title %></h4>
+      <p class="list-group-item-text"><%= submission.abstract %></p>
+      <p class="list-group-item-text">
+        <b>Id: </b><%= submission.id %><br/>
+        <b>State: </b><%= submission.aasm_state %><br/>
+      </p>
+      <p class="list-group-item-text"><%= submission.inspect %></p>
+    <% end %>
+  <% end %>
+</div>
+

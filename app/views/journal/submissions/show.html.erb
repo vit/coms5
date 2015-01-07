@@ -1,49 +1,33 @@
 <div class="page-header">
   <%= link_to journal_submissions_path(journal_id: @journal_journal.id), :class => 'btn btn-default' do %>
-    <span class="glyphicon glyphicon-list-alt"></span>
-    Back
+    <!-- span class="glyphicon glyphicon-list-alt"></span-->
+    <!-- i class="fa fa-arrow-left"></i -->
+    <!-- i class="fa fa-list fa-lg"></i -->
+    <i class="fa fa-level-up fa-lg"></i>
+    Papers list
   <% end %>
-  <%= link_to edit_journal_submission_path(@journal_submission), :class => 'btn btn-primary' do %>
-    <span class="glyphicon glyphicon-pencil"></span>
+  <%= link_to edit_journal_submission_path(@journal_submission), :class => 'btn btn-primary', :disabled => !@journal_submission.may_sm_update? do %>
+    <!-- i class="fa fa-pencil"></i -->
+    <i class="fa fa-edit fa-lg"></i>
     Edit
-  <% end #if current_user.is_admin? %>
-  <%= link_to @journal_submission, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger' do %>
-    <i class="fa fa-bomb"></i>
+  <% end #if @journal_submission.may_sm_update? %>
+  <%= link_to journal_submission_path(@journal_submission, op: :submit), method: :put, data: { confirm: 'Are you sure your paper is ready for submittion?' }, :class => 'btn btn-success', :disabled => !@journal_submission.may_sm_submit? do %>
+    <i class="fa fa-check fa-lg"></i>
+    Submit
+  <% end #if @journal_submission.may_sm_submit? %>
+  <%= link_to journal_submission_path(@journal_submission, op: :unsubmit), method: :put, data: { confirm: 'Are you sure you want to return your paper to the draft again?' }, :class => 'btn btn-warning', :disabled => !@journal_submission.may_sm_unsubmit? do %>
+    <i class="fa fa-times fa-lg"></i>
+    Recall
+  <% end #if @journal_submission.may_sm_unsubmit? %>
+  <%= link_to @journal_submission, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger', :disabled => !@journal_submission.may_sm_destroy? do %>
+    <i class="fa fa-trash-o fa-lg"></i>
     Destroy
-  <% end #if current_user && current_user.is_admin? %>
+  <% end #if @journal_submission.may_sm_destroy? %>
   <h1><%= t('journal.submission.my_title') %></h1>
 </div>
 
-<!-- dl class="dl-horizontal">
-  <dt>Title:</dt>
-  <dd><%#= @journal_submission.title %></dd>
-
-  <dt>Abstract:</dt>
-  <dd><%#= @journal_submission.abstract %></dd>
-
-  <dt>Journal:</dt>
-  <dd><%#= @journal_submission.journal %></dd>
-
-  <dt>User:</dt>
-  <dd><%#= @journal_submission.user.full_name %></dd>
-
-  <dt>Revisions:</dt>
-  <dd><%#= @journal_submission.revisions.to_a.inspect %></dd>
-
-</dl -->
-
 
 <div class="panel panel-default">
-  <!-- div class="panel-heading">
-<dl class="dl-horizontal">
-  <dt>Title:</dt>
-  <dd><%#= @journal_submission.title %></dd>
-  <dt>Abstract:</dt>
-  <dd><%#= @journal_submission.abstract %></dd>
-  <dt>Owner:</dt>
-  <dd><%#= @journal_submission.user.full_name %></dd>
-</dl>
-  </div -->
   <div class="panel-heading">
 <dl class="dl-horizontal">
     <dt>Id:</dt>
@@ -59,28 +43,41 @@
   <dt>Abstract:</dt>
   <dd><%= @journal_submission.abstract %></dd>
 </dl>
-<dl class="dl-horizontal">
-    <%# @journal_submission. %>
+<!-- dl class="dl-horizontal">
     <dt>State:</dt>
-    <dd><%= @journal_submission.aasm_state %></dd>
-</dl>
+    <dd><%#= @journal_submission.aasm_state %></dd>
+</dl -->
   </div>
 
   <ul class="list-group">
 <% @journal_submission.revisions.each do |revision| %>
     <li class="list-group-item">
-      <p>
-        <b>Revision #<%= revision.revision_n %></b>
-        <%#= revision.inspect %>
-      </p>
-      <p>
-        <b>Files:</b>
+<dl class="dl-horizontal">
+  <dt>Revision:</dt>
+  <dd>#<%= revision.revision_n %></dd>
+  <dt>Files:</dt>
+  <dd>
         <% revision.submission_files.each do |file| %>
           <%= link_to file.file_data.url do %>
             <i class="fa fa-download"></i> <%= file.file_type %>
           <% end %>
         <% end %>
+  </dd>
+  <dt>State:</dt>
+  <dd><%= revision.aasm_state %></dd>
+</dl>
+      <!-- p>
+        <b>Revision #<%#= revision.revision_n %></b>
+        <%#= revision.inspect %>
       </p>
+      <p>
+        <b>Files:</b>
+        <%# revision.submission_files.each do |file| %>
+          <%#= link_to file.file_data.url do %>
+            <i class="fa fa-download"></i> <%#= file.file_type %>
+          <%# end %>
+        <%# end %>
+      </p -->
     </li>
 <% end %>
   </ul>

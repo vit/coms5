@@ -3,5 +3,18 @@
     <%#= render file_record %>
   <%# end %>
 
-    <%= render @file_records %>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		Revision data
+	</div>
+	<div class="panel-body">
+		<dl class="dl-horizontal">
+			<dt>Revision</dt>
+			<dd>#<%= @journal_revision.revision_n %></dd>
+			<dt>State</dt>
+			<dd><%= @journal_revision.aasm_state %></dd>
+		</dl>
+    	<%= render @file_records %>
+	</div>
+</div>
 

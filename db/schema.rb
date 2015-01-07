@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141228174527) do
+ActiveRecord::Schema.define(version: 20150105140823) do
 
   create_table "journal_appointments", force: true do |t|
     t.integer "journal_id"
@@ -34,6 +34,19 @@ ActiveRecord::Schema.define(version: 20141228174527) do
 
   add_index "journal_journals", ["slug"], name: "index_journal_journals_on_slug", unique: true
   add_index "journal_journals", ["user_id"], name: "index_journal_journals_on_user_id"
+
+  create_table "journal_revision_decisions", force: true do |t|
+    t.string   "decision"
+    t.text     "comment"
+    t.integer  "revision_id"
+    t.integer  "user_id"
+    t.string   "aasm_state"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "journal_revision_decisions", ["revision_id"], name: "index_journal_revision_decisions_on_revision_id"
+  add_index "journal_revision_decisions", ["user_id"], name: "index_journal_revision_decisions_on_user_id"
 
   create_table "journal_revisions", force: true do |t|
     t.integer  "submission_id"

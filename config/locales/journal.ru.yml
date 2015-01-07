@@ -4,6 +4,7 @@ ru:
       root: Наверх
       journals: Журналы
       author_submissions: Мои статьи
+      ce_office_title: Гл. редактор
     nav:
       home: Начало
       journals: Журналы
@@ -24,3 +25,5 @@ ru:
       my_title: Моя статья
       new_paper: Новая статья
       edit_paper: Изменение статьи
+    ce:
+      list_title: Поданные статьи
