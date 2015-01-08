@@ -55,18 +55,22 @@
       <i class="fa fa-edit fa-lg"></i> Edit decision
     </button -->
 
-    <%= link_to "#", data: { toggle: "modal", target: "#decisionModal" }, :class => 'btn btn-primary', disabled: !(@decision.may_sm_submit?) do %>
+    <%= link_to "#", data: { toggle: "modal", target: "#decisionModal" }, :class => 'btn btn-primary', disabled: !(@decision && @decision.may_sm_submit?) do %>
       <i class="fa fa-edit fa-lg"></i> Edit decision
     <% end %>
 
-  <%= link_to journal_ce_submission_path(@submission, op: :submit_decision), method: :put, data: { confirm: 'Are you sure your decision is ready?' }, :class => 'btn btn-success', :remote => true, disabled: !(@decision.may_sm_submit? && @decision.persisted?) do %>
+  <%= link_to journal_ce_submission_path(@submission, op: :submit_decision), method: :put, data: { confirm: 'Are you sure your decision is ready?' }, :class => 'btn btn-success', :remote => true, disabled: !(@decision && @decision.may_sm_submit? && @decision.persisted?) do %>
     <i class="fa fa-check fa-lg"></i>
     Submit decision
   <% end #if @journal_submission.may_sm_submit? %>
-  <%= link_to journal_ce_submission_path(@submission, op: :cancel_decision), method: :put, data: { confirm: 'Are you sure?' }, :class => 'btn btn-warning', :remote => true, disabled: !(@decision.may_sm_cancel? && @decision.persisted?) do %>
+  
+
+<!--
+  <#%= link_to journal_ce_submission_path(@submission, op: :cancel_decision), method: :put, data: { confirm: 'Are you sure?' }, :class => 'btn btn-warning', :remote => true, disabled: !(@decision && @decision.may_sm_cancel? && @decision.persisted?) do %>
     <i class="fa fa-times fa-lg"></i>
     Cancel decision
-  <% end #if @journal_submission.may_sm_submit? %>
+  <%# end #if @journal_submission.may_sm_submit? %>
+-->
 
   </div>
 </div>
@@ -75,7 +79,7 @@
   </div>
 
   <ul class="list-group">
-<% @submission.revisions.each do |revision| %>
+<% @submission.revisions.order(:revision_n).reverse_order.each do |revision| %>
     <li class="list-group-item">
 <dl class="dl-horizontal">
   <dt>Revision:</dt>
@@ -90,19 +94,11 @@
   </dd>
   <dt>State:</dt>
   <dd><%= revision.aasm_state %></dd>
+  <% if revision.revision_decision %>
+    <dt>Chief editor comment:</dt>
+    <dd><%= revision.revision_decision.comment %></dd>
+  <% end %>
 </dl>
-      <!-- p>
-        <b>Revision #<%#= revision.revision_n %></b>
-        <%#= revision.inspect %>
-      </p>
-      <p>
-        <b>Files:</b>
-        <%# revision.submission_files.each do |file| %>
-          <%#= link_to file.file_data.url do %>
-            <i class="fa fa-download"></i> <%#= file.file_type %>
-          <%# end %>
-        <%# end %>
-      </p -->
     </li>
 <% end %>
   </ul>

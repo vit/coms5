@@ -15,10 +15,21 @@
     <i class="fa fa-check fa-lg"></i>
     Submit
   <% end #if @journal_submission.may_sm_submit? %>
-  <%= link_to journal_submission_path(@journal_submission, op: :unsubmit), method: :put, data: { confirm: 'Are you sure you want to return your paper to the draft again?' }, :class => 'btn btn-warning', :disabled => !@journal_submission.may_sm_unsubmit? do %>
+
+  
+  <%= link_to journal_submission_path(@journal_submission, op: :rework), method: :put, data: { confirm: 'Are you sure you are want to make new revision of the paper?' }, :class => 'btn btn-success', :disabled => !@journal_submission.may_sm_rework? do %>
+    <i class="fa fa-magic fa-lg"></i>
+    Rework
+  <% end #if @journal_submission.may_sm_unsubmit? %>
+
+
+<!--
+  <%#= link_to journal_submission_path(@journal_submission, op: :unsubmit), method: :put, data: { confirm: 'Are you sure you want to return your paper to the draft again?' }, :class => 'btn btn-warning', :disabled => !@journal_submission.may_sm_unsubmit? do %>
     <i class="fa fa-times fa-lg"></i>
     Recall
-  <% end #if @journal_submission.may_sm_unsubmit? %>
+  <%# end #if @journal_submission.may_sm_unsubmit? %>
+-->
+
   <%= link_to @journal_submission, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger', :disabled => !@journal_submission.may_sm_destroy? do %>
     <i class="fa fa-trash-o fa-lg"></i>
     Destroy
@@ -50,7 +61,7 @@
   </div>
 
   <ul class="list-group">
-<% @journal_submission.revisions.each do |revision| %>
+<% @journal_submission.revisions.order(:revision_n).reverse_order.each do |revision| %>
     <li class="list-group-item">
 <dl class="dl-horizontal">
   <dt>Revision:</dt>
@@ -65,6 +76,10 @@
   </dd>
   <dt>State:</dt>
   <dd><%= revision.aasm_state %></dd>
+  <% if revision.revision_decision %>
+    <dt>Chief editor comment:</dt>
+    <dd><%= revision.revision_decision.comment %></dd>
+  <% end %>
 </dl>
       <!-- p>
         <b>Revision #<%#= revision.revision_n %></b>

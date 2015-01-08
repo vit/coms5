@@ -14,48 +14,94 @@ class Journal::Submission < ActiveRecord::Base
 
   aasm do
     state :just_created, initial: true
-    state :draft #, initial: true
+    state :draft
+    state :revised_draft
     state :under_review
-#    state :revised_draft
-#    state :revised_under_review
     state :need_rework
     state :rejected
     state :accepted
     state :nonexistent
 
-    event :sm_update, :after => (-> data {
-        self.update data
-        self.save
-    }) do
-      transitions :from => :draft, :to => :draft
-#      transitions :from => :need_rework, :to => :need_rework
-#		  transitions :from => :editorial_draft, :to => :editorial_draft
-    end
-
-    event :sm_init, :after => :create_new_revision do
+    event :sm_init do
+      after do
+        create_new_revision
+      end
       transitions :from => :just_created, :to => :draft
     end
 
-    event(:sm_submit,
-      :after => (-> data=nil {
+#    event :sm_update, :after_commit => (-> {JournalMailer.author_submission_update(self)}) do
+    event :sm_update do
+      after do |data|
+        self.update data
+        self.save
+#        logger.debug "in model author_submission_update begin"
+#        logger.debug "in model author_submission_update begin"
+#        puts "======= in model before"
+#        throw "QQQQQQQQQQQQQQQ"
+        JournalMailer.author_submission_update(self).deliver_now
+#        puts "======= in model after"
+#        logger.debug "in model author_submission_update end"
+      end
+      transitions :from => :draft, :to => :draft
+      transitions :from => :revised_draft, :to => :revised_draft
+#      after_commit do
+#        JournalMailer.author_submission_update(self)
+#      end
+    end
+
+    event :sm_submit do
+#      after do |data|
+      after do
         self.last_created_revision.sm_submit!
         self.last_submitted_revision = self.last_created_revision
         save!
-      }) 
-    ) do
+        JournalMailer.author_submission_submit(self).deliver_now
+        JournalMailer.ce_submission_submit(self).deliver_now
+      end
       transitions :from => :draft, :to => :under_review
-#      transitions :from => :review, :to => :review
+      transitions :from => :revised_draft, :to => :under_review
     end
-    event(:sm_unsubmit,
-      :after => (-> {self.last_created_revision.sm_unsubmit!}) 
-    ) do
+
+    event :sm_rework do
+      after do
+        create_new_revision
+      end
+      transitions :from => :need_rework, :to => :revised_draft
+    end
+
+=begin
+    event :sm_unsubmit do
+      after do
+        self.last_created_revision.sm_unsubmit!
+      end
       transitions :from => :under_review, :to => :draft
     end
-    event(:sm_destroy, after: (-> {self.destroy!}) ) do
+=end
+
+    event :sm_destroy do
+      after do
+        last_created_revision.sm_destroy! if last_created_revision
+        self.destroy!
+      end
+      error do |e|
+        puts "AASM: state: #{aasm.current_state} event: #{aasm.current_event} error: #{e.inspect}"
+      end
+      transitions :from => :just_created, :to => :nonexistent
       transitions :from => :draft, :to => :nonexistent
+      transitions :from => :nonexistent, :to => :nonexistent
+    end
+
+    event :sm_apply_decision do
+      after do
+        JournalMailer.author_submission_apply_decision(self).deliver_now
+      end
+      transitions :from => :under_review, :to => :rejected, :if => (-> {last_submitted_revision.rejected?})
+      transitions :from => :under_review, :to => :accepted, :if => (-> {last_submitted_revision.accepted?})
+      transitions :from => :under_review, :to => :need_rework, :if => (-> {last_submitted_revision.need_rework?})
     end
 
 
+=begin
     event :sm_rework do
       transitions :from => :under_review, :to => :need_rework
     end
@@ -65,9 +111,11 @@ class Journal::Submission < ActiveRecord::Base
     event :sm_accept do
       transitions :from => :under_review, :to => :accepted
     end
-    event :sm_revert_to_review do
-      transitions :from => [:under_review, :need_rework, :rejected, :accepted], :to => :under_review
-    end
+=end
+
+#    event :sm_revert_to_review do
+#      transitions :from => [:under_review, :need_rework, :rejected, :accepted], :to => :under_review
+#    end
 
 
   end
@@ -81,42 +129,5 @@ private
         self.save
         r
     end
-
-#    def update_draft data
-#      do_if_may :sm_update do
-#        self.update data
-#      end
-#    end
-#    def destroy_draft
-#      do_if_may :sm_destroy do
-#        self.destroy
-#      end
-#    end
-
-#    def submit_paper
-#      do_if_may :sm_submit do
-#        self.last_created_revision.sm_submit!
-#        self.last_submitted_revision = self.last_created_revision
-#      end
-#    end
-#    def unsubmit_paper
-#      do_if_may :sm_unsubmit do
-#        self.last_created_revision.sm_unsubmit!
-#      end
-#    end
-
-
-#    def get_last_created_revision
-#      self.last_created_revision
-#    end
-
-
-#    def do_if_may op, *args, &block
-#      if self.send( ('may_'+op.to_s+'?').to_sym )
-#        block.call(*args)
-#        self.send( (op.to_s+'!').to_sym ) #rescue nil
-#      end
-#    end
-
 
 end

@@ -12,49 +12,43 @@ class Journal::RevisionDecision < ActiveRecord::Base
 	aasm do
 		state :draft, initial: true
 		state :submitted
+		state :nonexistent
 
-		event :sm_update, :after => (-> data {
-			self.update data
-			self.save
-		}) do
+		event :sm_update do
+			after do |data|
+				self.update data
+				self.save
+			end
 			transitions :from => :draft, :to => :draft
 		end
 
 #		event :sm_submit, guard: (-> {revision.review?}) do
-		event(:sm_submit,
-#			after: (-> {self.revision.send((decision+'_revision').to_sym)})
-			after: (-> {self.revision.send(('sm_'+decision+'!').to_sym)})
-		) do
+		event :sm_submit do
+			after do
+#				self.revision.send(('sm_'+decision+'!').to_sym)
+				self.revision.sm_apply_decision!
+			end
 			transitions :from => :draft, :to => :submitted
 		end
 
-		event(:sm_cancel,
-#			after: (-> {self.revision.revert_to_review_revision})
-			after: (-> {self.revision.sm_revert_to_review!})
-		) do
+=begin
+		event :sm_cancel do
+			after do
+				self.revision.sm_revert_to_review!
+			end
 			transitions :from => :submitted, :to => :draft
 		end
+=end
+
+		event :sm_destroy do
+			after do
+				self.destroy!
+			end
+#			transitions :from => [:draft, :submitted, :nonexistent], :to => :nonexistent
+			transitions :to => :nonexistent
+		end
+
 
 	end
-
-#    def submit_decision
-#      do_if_may :sm_submit do
-#        self.revision.send((decision+'_revision').to_sym)
-#      end
-#    end
-#    def cancel_decision
-#      do_if_may :sm_cancel do
-##        self.revision.sm_revert_to_review!
-#        self.revision.revert_to_review_revision
-#      end
-#    end
-
-
-#    def do_if_may op, *args, &block
-#      if self.send( ('may_'+op.to_s+'?').to_sym )
-#        block.call(*args)
-#        self.send( (op.to_s+'!').to_sym ) rescue nil
-#      end
-#    end
 
 end

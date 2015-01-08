@@ -74,9 +74,9 @@ class Journal::SubmissionsController < Journal::BaseController
       when 'submit'
 #        @journal_submission.submit_paper
         @journal_submission.sm_submit! # '1234567'
-      when 'unsubmit'
+      when 'rework'
 #        @journal_submission.unsubmit_paper
-        @journal_submission.sm_unsubmit!
+        @journal_submission.sm_rework!
       end
 
     respond_with(@journal_submission)

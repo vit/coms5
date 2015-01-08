@@ -7,87 +7,82 @@ class Journal::Revision < ActiveRecord::Base
 
 	aasm do
 		state :draft, initial: true
-		state :round_draft
-		state :review
-		state :rework
+		state :under_review
+		state :need_rework
 		state :rejected
 		state :accepted
+		state :nonexistent
 
 		event :sm_submit do
-			transitions :from => :draft, :to => :review
-			transitions :from => :round_draft, :to => :round_review
-		end
-		event :sm_unsubmit do
-			transitions :from => :review, :to => :draft
-			transitions :from => :round_review, :to => :round_draft
+			transitions :from => :draft, :to => :under_review
 		end
 
-		event(:sm_rework,
-			after: (-> {
-				submission.sm_rework!
-				puts "!!!!! revision/sm_rework"
-			})
-		) do
-			transitions :from => :review, :to => :rework
-			transitions :from => :round_review, :to => :rework
-		end
-#		event :sm_reject do
-		event(:sm_reject,
-			after: (-> {
-				submission.sm_reject!
-			})
-		) do
-			transitions :from => :review, :to => :rejected
-			transitions :from => :round_review, :to => :rejected
-		end
-#		event :sm_accept do
-		event(:sm_accept,
-			after: (-> {
-				submission.sm_accept!
-			})
-		) do
-			transitions :from => :review, :to => :accepted
-			transitions :from => :round_review, :to => :accepted
-		end
-#		event :sm_revert_to_review do
-		event(:sm_revert_to_review,
-			after: (-> {
-				submission.sm_revert_to_review!
-			})
-		) do
-			transitions :from => [:review, :rework, :rejected, :accepted], :to => :review
+#		event :sm_unsubmit do
+#			transitions :from => :review, :to => :draft
+#			transitions :from => :round_review, :to => :round_draft
+#		end
+
+		event :sm_create_decision do
+			after do |data|
+				decision = build_revision_decision(data)
+				decision.save!
+			end
+			transitions :from => :under_review, :to => :under_review
 		end
 
-
-	end
+		event :sm_apply_decision do
+			after do
+				submission.sm_apply_decision!
+			end
+			transitions :from => :under_review, :to => :rejected, :if => (-> {revision_decision.decision=='reject'})
+			transitions :from => :under_review, :to => :accepted, :if => (-> {revision_decision.decision=='accept'})
+			transitions :from => :under_review, :to => :need_rework, :if => (-> {revision_decision.decision=='rework'})
+		end
 
 =begin
-	def rework_revision
-      do_if_may :sm_rework do
-#      	submission.rework_submission
-      	submission.sm_rework!
-      end
-	end
-	def reject_revision
-      do_if_may :sm_reject do
-#      	submission.reject_submission
-      	submission.sm_reject!
-      end
-	end
-	def accept_revision
-      do_if_may :sm_accept do
-#      	submission.accept_submission
-      	submission.sm_accept!
-      end
-	end
+		event :sm_rework do
+			after do
+				submission.sm_rework!
+			end
+			transitions :from => :under_review, :to => :need_rework
+		end
+
+		event :sm_reject do
+			after do
+				submission.sm_reject!
+			end
+			transitions :from => :under_review, :to => :rejected
+		end
+
+		event :sm_accept do
+			after do
+				submission.sm_accept!
+			end
+			transitions :from => :under_review, :to => :accepted
+		end
 =end
 
-#	def revert_to_review_revision
-#      do_if_may :sm_revert_to_review do
-#      	submission.sm_revert_to_review!
-#      end
-#	end
+		event :sm_destroy do
+			after do
+				revision_decision.sm_destroy! if revision_decision
+				self.destroy!
+			end
+#			transitions :from => :draft, :to => :nonexistent
+#			transitions :from => %i[draft under_review need_rework rejected accepted nonexistent], :to => :nonexistent
+			transitions :to => :nonexistent
+		end
 
+
+=begin
+		event :sm_revert_to_review do
+			after do
+				submission.sm_revert_to_review!
+			end
+			transitions :from => [:review, :rework, :rejected, :accepted], :to => :review
+		end
+=end
+
+	end
 
 	def get_file_by_type(file_type = 'author_file')
 		submission_files.find_by_file_type file_type
@@ -95,14 +90,5 @@ class Journal::Revision < ActiveRecord::Base
 	def get_or_new_file_by_type(file_type = 'author_file')
 		get_file_by_type(file_type) || submission_files.new(file_type: file_type)
 	end
-
-
-#    def do_if_may op, *args, &block
-#      if self.send( ('may_'+op.to_s+'?').to_sym )
-#        block.call(*args)
-#        self.send( (op.to_s+'!').to_sym ) rescue nil
-#      end
-#    end
-
 
 end

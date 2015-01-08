@@ -14,12 +14,6 @@ class Journal::CeSubmissionsController < Journal::BaseController
 		@journal = @submission.journal
 		@revision = @submission.last_submitted_revision
 		@decision = @revision.revision_decision || @revision.build_revision_decision({user: current_user})
-
-#		puts Journal::RevisionDecision.table_name
-#		puts Journal::Revision.table_name
-
-#		@decision = @revision.revision_decision || Journal::RevisionDecision.new({user: current_user, revision: @revision})
-#		@decision.save
 	end
 
 	def update
@@ -32,35 +26,28 @@ class Journal::CeSubmissionsController < Journal::BaseController
 		data = params[:journal_revision_decision]
 		if data
 			data = data.permit(:decision, :comment).merge user: current_user
-#			puts data
 			if @decision
-			#	@decision.update(data)
-			#	@decision.save
+				#puts "!!!!!! update"
 		        @decision.sm_update!(data)
 			else
-				@decision = @revision.build_revision_decision(data)
-				@decision.save
+				#puts "!!!!!! create"
+				#@decision = @revision.build_revision_decision(data)
+				#@decision.save
+				@revision.sm_create_decision!(data)
+				@decision = @revision.revision_decision
 			end
 		end
 
 		case params[:op]
 		when 'submit_decision'
 			@decision.sm_submit!
-#			@decision.submit_decision
 		when 'cancel_decision'
 			@decision.sm_cancel!
-#			@decision.cancel_decision
 		end
-
-#		@submission = Journal::Submission.find(params[:id])
-#		@journal = @submission.journal
-#		@revision = @submission.last_submitted_revision
-#		@decision = @revision.revision_decision
 
 		@decision.reload
 		@revision.reload
 		@submission.reload
-
 
 		respond_to do |format|
 			format.js
