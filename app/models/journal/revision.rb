@@ -4,6 +4,7 @@ class Journal::Revision < ActiveRecord::Base
   belongs_to :submission
   has_many :submission_files
   has_one :revision_decision
+  has_one :reviews
 
 	aasm do
 		state :draft, initial: true

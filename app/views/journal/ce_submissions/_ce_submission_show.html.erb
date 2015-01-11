@@ -9,101 +9,107 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-<dl class="dl-horizontal">
-    <dt>Id:</dt>
-    <dd><%= @submission.id %></dd>
-    <dt>State:</dt>
-    <dd><%= @submission.aasm_state %></dd>
-</dl>
+    <dl class="dl-horizontal">
+      <dt>Id:</dt>
+      <dd><%= @submission.id %></dd>
+      <dt>State:</dt>
+      <dd><%= @submission.aasm_state %></dd>
+    </dl>
   </div>
   <div class="panel-body">
-<dl class="dl-horizontal">
-  <dt>Title:</dt>
-  <dd><%= @submission.title %></dd>
-  <dt>Abstract:</dt>
-  <dd><%= @submission.abstract %></dd>
-  <dt>User:</dt>
-  <dd>
-    <%= link_to profile_path(@submission.user) do %>
-      <i class="fa fa-user"></i> <%= @submission.user.full_name %>
-    <% end %>
-  </dd>
-</dl>
-<!-- dl class="dl-horizontal">
-    <%# @submission. %>
-    <dt>State:</dt>
-    <dd><%#= @submission.aasm_state %></dd>
-</dl -->
 
-<div class="panel panel-default">
-  <div class="panel-heading">Chief Editor Decision</div>
-  <div class="panel-body">
-    <!-- p><%#= @decision.inspect %></p -->
-    <% if @decision.persisted? %>
-      <dl class="dl-horizontal">
-        <dt>Decision:</dt>
-        <dd><%= @decision.decision %></dd>
-        <dt>Comment:</dt>
-        <dd><%= @decision.comment %></dd>
-        <dt>State:</dt>
-        <dd><%= @decision.aasm_state %></dd>
-      </dl>
-    <% else %>
-      <p>Not made yet</p>
-    <% end %>
-    <!-- button href="#" class="btn bbtn-default btn-primary" data-toggle="modal" data-target="#decisionModal">
-      <i class="fa fa-edit fa-lg"></i> Edit decision
-    </button -->
-
-    <%= link_to "#", data: { toggle: "modal", target: "#decisionModal" }, :class => 'btn btn-primary', disabled: !(@decision && @decision.may_sm_submit?) do %>
-      <i class="fa fa-edit fa-lg"></i> Edit decision
-    <% end %>
-
-  <%= link_to journal_ce_submission_path(@submission, op: :submit_decision), method: :put, data: { confirm: 'Are you sure your decision is ready?' }, :class => 'btn btn-success', :remote => true, disabled: !(@decision && @decision.may_sm_submit? && @decision.persisted?) do %>
-    <i class="fa fa-check fa-lg"></i>
-    Submit decision
-  <% end #if @journal_submission.may_sm_submit? %>
-  
-
-<!--
-  <#%= link_to journal_ce_submission_path(@submission, op: :cancel_decision), method: :put, data: { confirm: 'Are you sure?' }, :class => 'btn btn-warning', :remote => true, disabled: !(@decision && @decision.may_sm_cancel? && @decision.persisted?) do %>
-    <i class="fa fa-times fa-lg"></i>
-    Cancel decision
-  <%# end #if @journal_submission.may_sm_submit? %>
--->
-
-  </div>
-</div>
-
-
-  </div>
-
-  <ul class="list-group">
-<% @submission.revisions.order(:revision_n).reverse_order.each do |revision| %>
-    <li class="list-group-item">
-<dl class="dl-horizontal">
-  <dt>Revision:</dt>
-  <dd>#<%= revision.revision_n %></dd>
-  <dt>Files:</dt>
-  <dd>
-        <% revision.submission_files.each do |file| %>
-          <%= link_to file.file_data.url do %>
-            <i class="fa fa-download"></i> <%= file.file_type %>
-          <% end %>
+    <dl class="dl-horizontal">
+      <dt>Title:</dt>
+      <dd><%= @submission.title %></dd>
+      <dt>Abstract:</dt>
+      <dd><%= @submission.abstract %></dd>
+      <dt>User:</dt>
+      <dd>
+        <%= link_to profile_path(@submission.user) do %>
+          <i class="fa fa-user"></i> <%= @submission.user.full_name %>
         <% end %>
-  </dd>
-  <dt>State:</dt>
-  <dd><%= revision.aasm_state %></dd>
-  <% if revision.revision_decision %>
-    <dt>Chief editor comment:</dt>
-    <dd><%= revision.revision_decision.comment %></dd>
-  <% end %>
-</dl>
-    </li>
-<% end %>
-  </ul>
+      </dd>
+    </dl>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Chief Editor Decision
+      </div>
+      <div class="panel-body">
+        <%# if @decision.persisted? %>
+        <% if @decision %>
+          <dl class="dl-horizontal">
+            <dt>Decision:</dt>
+            <dd><%= @decision.decision %></dd>
+            <dt>Comment:</dt>
+            <dd><%= @decision.comment %></dd>
+            <dt>State:</dt>
+            <dd><%= @decision.aasm_state %></dd>
+          </dl>
+        <% else %>
+          <p>Not made yet</p>
+        <% end %>
+
+        <%= link_to "#", data: { toggle: "modal", target: "#decisionModal" }, :class => 'btn btn-primary', disabled: !(@decision && @decision.may_sm_submit?) do %>
+          <i class="fa fa-edit fa-lg"></i> Edit decision
+        <% end %>
+
+        <%= link_to journal_ce_submission_path(@submission, op: :submit_decision), method: :put, data: { confirm: 'Are you sure your decision is ready?' }, :class => 'btn btn-success', :remote => true, disabled: !(@decision && @decision.may_sm_submit? && @decision.persisted?) do %>
+          <i class="fa fa-check fa-lg"></i>
+          Submit decision
+        <% end #if @journal_submission.may_sm_submit? %>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Reviewer Invites
+      </div>
+      <div class="panel-body">
+        <%= @submission.reviewer_invites.map(&:inspect) %>
+
+        <%= link_to "#", data: { toggle: "modal", target: "#addInvitationsModal" }, :class => 'btn btn-primary', disabled: false do %>
+          <i class="fa fa-plus fa-lg"></i> Create invites
+        <% end %>
+
+        <!--
+        <%#= link_to journal_ce_submission_path(@submission, op: :submit_decision), method: :put, data: { confirm: 'Are you sure your decision is ready?' }, :class => 'btn btn-success', :remote => true, disabled: !(@decision && @decision.may_sm_submit? && @decision.persisted?) do %>
+          <i class="fa fa-check fa-lg"></i>
+            Submit decision
+        <%# end %>
+        -->
+      </div>
+    </div>
+
+    <ul class="list-group">
+      <% @submission.revisions.order(:revision_n).reverse_order.each do |revision| %>
+        <li class="list-group-item">
+          <dl class="dl-horizontal">
+            <dt>Revision:</dt>
+            <dd>#<%= revision.revision_n %></dd>
+            <dt>Files:</dt>
+            <dd>
+              <% revision.submission_files.each do |file| %>
+                <%= link_to file.file_data.url do %>
+                  <i class="fa fa-download"></i> <%= file.file_type %>
+                <% end %>
+              <% end %>
+            </dd>
+            <dt>State:</dt>
+            <dd><%= revision.aasm_state %></dd>
+            <% if revision.revision_decision %>
+              <dt>Chief editor comment:</dt>
+              <dd><%= revision.revision_decision.comment %></dd>
+            <% end %>
+          </dl>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
 </div>
 
-<%= render 'edit_decision_dialog' %>
+<%= render 'edit_reviewer_invites_dialog' %>
+<%#= render 'edit_decision_dialog' %>
 
 

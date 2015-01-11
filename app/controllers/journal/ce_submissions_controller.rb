@@ -27,12 +27,8 @@ class Journal::CeSubmissionsController < Journal::BaseController
 		if data
 			data = data.permit(:decision, :comment).merge user: current_user
 			if @decision
-				#puts "!!!!!! update"
 		        @decision.sm_update!(data)
 			else
-				#puts "!!!!!! create"
-				#@decision = @revision.build_revision_decision(data)
-				#@decision.save
 				@revision.sm_create_decision!(data)
 				@decision = @revision.revision_decision
 			end
@@ -45,7 +41,7 @@ class Journal::CeSubmissionsController < Journal::BaseController
 			@decision.sm_cancel!
 		end
 
-		@decision.reload
+		@decision.reload if @decision
 		@revision.reload
 		@submission.reload
 

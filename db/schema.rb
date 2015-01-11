@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150105140823) do
+ActiveRecord::Schema.define(version: 20150110103529) do
 
   create_table "journal_appointments", force: true do |t|
     t.integer "journal_id"
@@ -34,6 +34,30 @@ ActiveRecord::Schema.define(version: 20150105140823) do
 
   add_index "journal_journals", ["slug"], name: "index_journal_journals_on_slug", unique: true
   add_index "journal_journals", ["user_id"], name: "index_journal_journals_on_user_id"
+
+  create_table "journal_reviewer_invites", force: true do |t|
+    t.integer  "submission_id"
+    t.integer  "user_id"
+    t.string   "aasm_state"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "journal_reviewer_invites", ["submission_id"], name: "index_journal_reviewer_invites_on_submission_id"
+  add_index "journal_reviewer_invites", ["user_id"], name: "index_journal_reviewer_invites_on_user_id"
+
+  create_table "journal_reviews", force: true do |t|
+    t.string   "decision"
+    t.text     "comment"
+    t.integer  "revision_id"
+    t.integer  "user_id"
+    t.string   "aasm_state"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "journal_reviews", ["revision_id"], name: "index_journal_reviews_on_revision_id"
+  add_index "journal_reviews", ["user_id"], name: "index_journal_reviews_on_user_id"
 
   create_table "journal_revision_decisions", force: true do |t|
     t.string   "decision"

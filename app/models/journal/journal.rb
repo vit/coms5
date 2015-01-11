@@ -18,5 +18,8 @@ class Journal::Journal < ActiveRecord::Base
 	def chief_editors
 		self.appointments.where(role_name: 'chief_editor').map(&:user)
 	end
+	def reviewers
+		self.appointments.where(role_name: 'reviewer').map(&:user)
+	end
 
 end

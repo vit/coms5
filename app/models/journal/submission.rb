@@ -4,6 +4,7 @@ class Journal::Submission < ActiveRecord::Base
   belongs_to :user
   belongs_to :journal
   has_many :revisions
+  has_many :reviewer_invites
 
   belongs_to :last_created_revision, class_name: 'Journal::Revision'
   belongs_to :last_submitted_revision, class_name: 'Journal::Revision'
