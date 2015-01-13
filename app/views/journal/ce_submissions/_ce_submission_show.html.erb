@@ -66,7 +66,32 @@
         Reviewer Invites
       </div>
       <div class="panel-body">
-        <%= @submission.reviewer_invites.map(&:inspect) %>
+        <%#= @submission.reviewer_invites.map(&:inspect) %>
+        <ul class="list-group">
+          <% @submission.reviewer_invites.each do |ri| %>
+            <li class="list-group-item">
+
+              <%= link_to journal_ce_submission_path(@submission, op: 'drop_reviewer_invite', reviewer_id: ri.user.id), method: :put, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-xs pull-right', remote: true,
+                  :disabled => !ri.may_sm_destroy? do %>
+                &times;
+              <% end %>
+
+              <%= link_to journal_ce_submission_path(@submission, op: 'activate_reviewer_invite', reviewer_id: ri.user.id), method: :put, data: { confirm: 'Are you sure?' }, :class => 'btn btn-success btn-xs pull-right', remote: true,
+                  :disabled => !ri.may_sm_activate? do %>
+                <i class="fa fa-check"></i> Activate
+              <% end %>
+
+              <p>
+                <%#= ri.user.full_name %>
+                <%= link_to profile_path(ri.user), target: "_blank" do %>
+                  <i class="fa fa-user"></i> <%= ri.user.full_name -%>
+                <% end %>
+                | <%= ri.aasm_state %>
+              </p>
+            </li>
+          <% end %>
+        </ul>
+
 
         <%= link_to "#", data: { toggle: "modal", target: "#addInvitationsModal" }, :class => 'btn btn-primary', disabled: false do %>
           <i class="fa fa-plus fa-lg"></i> Create invites

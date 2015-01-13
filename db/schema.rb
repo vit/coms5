@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150110103529) do
+ActiveRecord::Schema.define(version: 20150113161056) do
 
   create_table "journal_appointments", force: true do |t|
     t.integer "journal_id"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20150110103529) do
     t.datetime "updated_at",    null: false
   end
 
+  add_index "journal_reviewer_invites", ["submission_id", "user_id"], name: "index_journal_reviewer_invites_submission_user", unique: true
   add_index "journal_reviewer_invites", ["submission_id"], name: "index_journal_reviewer_invites_on_submission_id"
   add_index "journal_reviewer_invites", ["user_id"], name: "index_journal_reviewer_invites_on_user_id"
 
@@ -56,6 +57,7 @@ ActiveRecord::Schema.define(version: 20150110103529) do
     t.datetime "updated_at",  null: false
   end
 
+  add_index "journal_reviews", ["revision_id", "user_id"], name: "index_journal_reviews_revision_user", unique: true
   add_index "journal_reviews", ["revision_id"], name: "index_journal_reviews_on_revision_id"
   add_index "journal_reviews", ["user_id"], name: "index_journal_reviews_on_user_id"
 

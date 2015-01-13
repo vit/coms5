@@ -39,6 +39,25 @@ class Journal::CeSubmissionsController < Journal::BaseController
 			@decision.sm_submit!
 		when 'cancel_decision'
 			@decision.sm_cancel!
+		when 'add_reviewer_invites'
+			r_ids = params[:reviewer_invites]
+			r_ids.each do |r_id|
+				puts r_id
+				u = User.find(r_id)
+				#@submission.reviewer_invites.find(user: u)
+				inv = @submission.reviewer_invites.build(user: u)
+				inv.save! rescue nil
+			end if r_ids and r_ids.is_a?(Array)
+		when 'activate_reviewer_invite'
+			r_id = params[:reviewer_id]
+			u = User.find(r_id)
+			inv = @submission.reviewer_invites.find_by(user: u)
+			inv.sm_activate! if inv.may_sm_activate?
+		when 'drop_reviewer_invite'
+			r_id = params[:reviewer_id]
+			u = User.find(r_id)
+			inv = @submission.reviewer_invites.find_by(user: u)
+			inv.sm_destroy! if inv.may_sm_destroy?
 		end
 
 		@decision.reload if @decision

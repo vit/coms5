@@ -35,19 +35,10 @@ class Journal::Submission < ActiveRecord::Base
       after do |data|
         self.update data
         self.save
-#        logger.debug "in model author_submission_update begin"
-#        logger.debug "in model author_submission_update begin"
-#        puts "======= in model before"
-#        throw "QQQQQQQQQQQQQQQ"
         JournalMailer.author_submission_update(self).deliver_now
-#        puts "======= in model after"
-#        logger.debug "in model author_submission_update end"
       end
       transitions :from => :draft, :to => :draft
       transitions :from => :revised_draft, :to => :revised_draft
-#      after_commit do
-#        JournalMailer.author_submission_update(self)
-#      end
     end
 
     event :sm_submit do
@@ -70,15 +61,6 @@ class Journal::Submission < ActiveRecord::Base
       transitions :from => :need_rework, :to => :revised_draft
     end
 
-=begin
-    event :sm_unsubmit do
-      after do
-        self.last_created_revision.sm_unsubmit!
-      end
-      transitions :from => :under_review, :to => :draft
-    end
-=end
-
     event :sm_destroy do
       after do
         last_created_revision.sm_destroy! if last_created_revision
@@ -100,23 +82,6 @@ class Journal::Submission < ActiveRecord::Base
       transitions :from => :under_review, :to => :accepted, :if => (-> {last_submitted_revision.accepted?})
       transitions :from => :under_review, :to => :need_rework, :if => (-> {last_submitted_revision.need_rework?})
     end
-
-
-=begin
-    event :sm_rework do
-      transitions :from => :under_review, :to => :need_rework
-    end
-    event :sm_reject do
-      transitions :from => :under_review, :to => :rejected
-    end
-    event :sm_accept do
-      transitions :from => :under_review, :to => :accepted
-    end
-=end
-
-#    event :sm_revert_to_review do
-#      transitions :from => [:under_review, :need_rework, :rejected, :accepted], :to => :under_review
-#    end
 
 
   end

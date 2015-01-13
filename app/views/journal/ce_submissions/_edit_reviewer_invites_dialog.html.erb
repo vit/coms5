@@ -19,10 +19,12 @@
             <div class="form-group">
             <div class="checkbox">
               <label>
-              <%= check_box_tag "reviewer_invites[]", member.id, @submission.reviewer_invites.map(&:user_id).include?(member.id), id: "reviewer_#{member.id}", class: "ccheckbox form-control" %>
+              <%= check_box_tag "reviewer_invites[]", member.id,
+                false && @submission.reviewer_invites.map(&:user_id).include?(member.id),
+                id: "reviewer_#{member.id}", class: "ccheckbox form-control" %>
               <%#= label_tag "reviewer_#{member.id}", member.full_name %>
-              <%= link_to profile_path(member) do %>
-                <i class="fa fa-user"></i> <%= member.full_name %>
+              <%= link_to profile_path(member), target: "_blank" do %>
+                <i class="fa fa-user"></i> <%= member.full_name -%>
               <% end %>
               </label>
             </div>

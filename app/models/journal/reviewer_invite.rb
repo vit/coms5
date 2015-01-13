@@ -55,7 +55,8 @@ class Journal::ReviewerInvite < ActiveRecord::Base
 			after do
 				self.destroy!
 			end
-			transitions :to => :nonexistent
+#			transitions :to => :nonexistent
+			transitions :from => :inactive, :to => :nonexistent
 		end
 
 	end
