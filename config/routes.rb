@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     get 'ce' => 'chief_editor_office#index'
     get 'r' => 'reviewer_office#index'
     resources :ce_submissions, only: [:show, :update]
+    resources :r_submissions, only: [:show, :update]
   end
 
 resources :profile, only: [:show]

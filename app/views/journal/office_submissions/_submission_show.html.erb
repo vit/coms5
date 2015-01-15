@@ -1,8 +1,12 @@
 <div class="page-header">
+  <%= link_to journal_r_path(journal_id: @journal.id), :class => 'btn btn-default' do %>
+    <i class="fa fa-list fa-lg"></i>
+    Back to the list
+  <% end if @section_journal_reviewer_office %>
   <%= link_to journal_ce_path(journal_id: @journal.id), :class => 'btn btn-default' do %>
     <i class="fa fa-list fa-lg"></i>
     Back to the list
-  <% end %>
+  <% end if @section_journal_chief_editor_office %>
   <h1><%= t('journal.office_submission.submitted_paper') %></h1>
 </div>
 
@@ -31,6 +35,7 @@
       </dd>
     </dl>
 
+    <% if @section_journal_chief_editor_office %>
     <div class="panel panel-default">
       <div class="panel-heading">
         Chief Editor Decision
@@ -57,10 +62,12 @@
         <%= link_to journal_ce_submission_path(@submission, op: :submit_decision), method: :put, data: { confirm: 'Are you sure your decision is ready?' }, :class => 'btn btn-success', :remote => true, disabled: !(@decision && @decision.may_sm_submit? && @decision.persisted?) do %>
           <i class="fa fa-check fa-lg"></i>
           Submit decision
-        <% end #if @journal_submission.may_sm_submit? %>
+        <% end %>
       </div>
     </div>
+    <% end %>
 
+    <% if @section_journal_chief_editor_office %>
     <div class="panel panel-default">
       <div class="panel-heading">
         Reviewer Invites
@@ -97,14 +104,10 @@
           <i class="fa fa-plus fa-lg"></i> Create invites
         <% end %>
 
-        <!--
-        <%#= link_to journal_ce_submission_path(@submission, op: :submit_decision), method: :put, data: { confirm: 'Are you sure your decision is ready?' }, :class => 'btn btn-success', :remote => true, disabled: !(@decision && @decision.may_sm_submit? && @decision.persisted?) do %>
-          <i class="fa fa-check fa-lg"></i>
-            Submit decision
-        <%# end %>
-        -->
       </div>
     </div>
+    <% end %>
+
 
     <ul class="list-group">
       <% @submission.revisions.order(:revision_n).reverse_order.each do |revision| %>
@@ -134,7 +137,7 @@
 
 </div>
 
-<%= render 'edit_reviewer_invites_dialog' %>
-<%= render 'edit_decision_dialog' %>
+<%#= render 'edit_reviewer_invites_dialog' %>
+<%#= render 'edit_decision_dialog' %>
 
 

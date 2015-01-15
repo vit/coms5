@@ -25,6 +25,12 @@
 				<li><%= link_to("(%d) " % @submission.id + @submission.title, journal_ce_submission_path(@submission))  %></li>
 			<% end %>
 		<% end %>
+		<% if @section_journal_reviewer_office %>
+			<li><%= link_to(t('journal.breadcrumb.r_office_title'), journal_r_path(journal_id: @journal.id)) %></li>
+			<% if @submission && @submission.persisted? %>
+				<li><%= link_to("(%d) " % @submission.id + @submission.title, journal_r_submission_path(@submission))  %></li>
+			<% end %>
+		<% end %>
 
 	<% end %>
 

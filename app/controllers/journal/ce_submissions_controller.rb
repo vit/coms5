@@ -8,7 +8,6 @@ class Journal::CeSubmissionsController < Journal::BaseController
 
 #  respond_to :html, :js
 
-
 	def show
 		@submission = Journal::Submission.find(params[:id])
 		@journal = @submission.journal
