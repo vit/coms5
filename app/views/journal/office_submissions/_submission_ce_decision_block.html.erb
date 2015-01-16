@@ -1,0 +1,34 @@
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Chief Editor Decision
+      </div>
+      <div class="panel-body">
+        <%# if @decision.persisted? %>
+        <% if @decision %>
+          <dl class="dl-horizontal">
+            <dt>Decision:</dt>
+            <dd><%= @decision.decision %></dd>
+            <dt>Comment:</dt>
+            <dd><%= @decision.comment %></dd>
+            <dt>State:</dt>
+            <dd><%= @decision.aasm_state %></dd>
+          </dl>
+        <% else %>
+          <p>Not made yet</p>
+        <% end %>
+
+        <%= link_to "#", data: { toggle: "modal", target: "#decisionModal" }, :class => 'btn btn-primary', disabled: !(@decision && @decision.may_sm_update?) do %>
+          <i class="fa fa-edit fa-lg"></i> Edit decision
+        <% end %>
+
+      <!--
+        <%#= link_to "#", data: { toggle: "modal", target: "#decisionModal" }, :class => 'btn btn-primary', disabled: !(@decision && @decision.may_sm_submit?) do %>
+          <i class="fa fa-edit fa-lg"></i> Edit decision
+        <%# end %>
+      -->
+
+        <%= link_to journal_ce_submission_path(@submission, op: :submit_decision), method: :put, data: { confirm: 'Are you sure your decision is ready?' }, :class => 'btn btn-success', :remote => true, disabled: !(@decision && @decision.may_sm_submit? && @decision.persisted?) do %>
+          <i class="fa fa-check fa-lg"></i> Submit decision
+        <% end %>
+      </div>
+    </div>

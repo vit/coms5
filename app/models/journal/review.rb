@@ -15,7 +15,6 @@ class Journal::Review < ActiveRecord::Base
 		state :submitted
 		state :nonexistent
 
-=begin
 		event :sm_update do
 			after do |data|
 				self.update data
@@ -23,7 +22,6 @@ class Journal::Review < ActiveRecord::Base
 			end
 			transitions :from => :draft, :to => :draft
 		end
-=end
 
 		event :sm_submit do
 			after do

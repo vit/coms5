@@ -17,16 +17,6 @@ class Journal::ReviewerInvite < ActiveRecord::Base
 		state :accepted
 		state :nonexistent
 
-=begin
-		event :sm_update do
-			after do |data|
-				self.update data
-				self.save
-			end
-			transitions :from => :draft, :to => :draft
-		end
-=end
-
 		event :sm_activate do
 			after do
 			end
@@ -55,8 +45,8 @@ class Journal::ReviewerInvite < ActiveRecord::Base
 			after do
 				self.destroy!
 			end
-#			transitions :to => :nonexistent
-			transitions :from => :inactive, :to => :nonexistent
+			transitions :to => :nonexistent
+#			transitions :from => :inactive, :to => :nonexistent
 		end
 
 	end

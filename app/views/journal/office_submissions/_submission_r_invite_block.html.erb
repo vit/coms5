@@ -1,0 +1,37 @@
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Reviewer Invite
+      </div>
+      <div class="panel-body">
+
+        <%#= @my_invite.inspect if @my_invite %>
+        <% if @my_invite && !@my_invite.inactive? %>
+          <dl class="dl-horizontal">
+            <dt>State:</dt>
+            <dd><%= @my_invite.aasm_state %></dd>
+          </dl>
+
+          <% if @my_invite.pending? %>
+            <p>To review you have to click "Accept" button before. Or click "Decline" button, if you do not want to review this paper.</p>
+            <%= link_to journal_r_submission_path(@submission, op: :accept_my_reviewer_invite), method: :put, data: { confirm: 'Are you sure your want to accept this invite?' }, :class => 'btn btn-success', :remote => true, disabled: !(@my_invite && @my_invite.may_sm_accept?) do %>
+              <i class="fa fa-check fa-lg"></i> Accept
+            <% end %>
+            <%= link_to journal_r_submission_path(@submission, op: :decline_my_reviewer_invite), method: :put, data: { confirm: 'Are you sure your want to decline this invite?' }, :class => 'btn btn-danger', :remote => true, disabled: !(@my_invite && @my_invite.may_sm_decline?) do %>
+              <i class="fa fa-times fa-lg"></i> Decline
+            <% end %>
+          <% elsif @my_invite.accepted? %>
+            <p>You have accepted the invite</p>
+          <% elsif @my_invite.declined? %>
+            <p>You have declined the invite</p>
+          <% elsif @my_invite.cancelled? %>
+            <p>The invite is cancelled</p>
+          <% else %>
+            <p>Wrong state of the invite</p>
+          <% end %>
+
+        <% else %>
+          <p>You are not invited to review this paper yet</p>
+        <% end %>
+
+      </div>
+    </div>

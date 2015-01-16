@@ -1,0 +1,59 @@
+
+
+<div class="modal fade" id="addInvitationsModal" tabindex="-1" role="dialog" aria-labelledby="addInvitationsModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <%#= form_tag journal_ce_submission_path(@submission), :method => :put, remote: true, :class => "form-horizontal", :role => "form" do %>
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" iid="myModalLabel">Reviewer Invites</h4>
+      </div>
+      <div class="modal-body">
+
+        <%#= @submission.reviewer_invites.map(&:inspect) %>
+        <%= form_tag journal_ce_submission_path(@submission), :method => :put, remote: true, :cclass => "form-inline", :class => "form-horizontal", :rrole => "form" do %>
+          <%= hidden_field_tag 'op', 'add_reviewer_invites' %>
+          <% @journal.reviewers.each_with_index do |member, index| %>
+            <div class="form-group">
+            <div class="checkbox">
+              <label>
+              <%= check_box_tag "reviewer_invites[]", member.id,
+                false && @submission.reviewer_invites.map(&:user_id).include?(member.id),
+                id: "reviewer_#{member.id}", class: "ccheckbox form-control" %>
+              <%#= label_tag "reviewer_#{member.id}", member.full_name %>
+              <%= link_to profile_path(member), target: "_blank" do %>
+                <i class="fa fa-user"></i> <%= member.full_name -%>
+              <% end %>
+              </label>
+            </div>
+            </div>
+          <% end %>
+
+          <div class="form-group">
+            <div cclass="col-sm-offset-2 col-sm-10">
+              <%#= f.submit :class => 'btn btn-success' %>
+              <%= button_tag :class => 'btn btn-success' do %>
+                <i class="fa fa-check fa-lg"></i> Add
+              <% end %>
+              <%= link_to nil, data: { dismiss: "modal" }, :class => 'btn btn-warning' do %>
+                <i class="fa fa-times fa-lg"></i> Cancel
+              <% end %>
+            </div>
+          </div>
+
+        <% end %>
+
+      </div>
+      <div class="modal-footer">
+
+
+      </div>
+      <%# end %>
+    </div>
+  </div>
+</div>
+
+
+

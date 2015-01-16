@@ -1,0 +1,29 @@
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        My Review
+      </div>
+      <div class="panel-body">
+        <%#= @my_review.inspect if @my_review %>
+        <%# if @decision.persisted? %>
+        <% if @my_review.persisted? %>
+          <dl class="dl-horizontal">
+            <dt>Decision:</dt>
+            <dd><%= @my_review.decision %></dd>
+            <dt>Comment:</dt>
+            <dd><%= @my_review.comment %></dd>
+            <dt>State:</dt>
+            <dd><%= @my_review.aasm_state %></dd>
+          </dl>
+        <% else %>
+          <p>Not made yet</p>
+        <% end %>
+
+        <%= link_to "#", data: { toggle: "modal", target: "#reviewModal" }, :class => 'btn btn-primary', disabled: !(@my_review && @my_review.may_sm_update?) do %>
+          <i class="fa fa-edit fa-lg"></i> Edit review
+        <% end %>
+
+        <%= link_to journal_r_submission_path(@submission, op: :submit_my_review), method: :put, data: { confirm: 'Are you sure your review is ready?' }, :class => 'btn btn-success', :remote => true, disabled: !(@my_review && @my_review.may_sm_submit? && @my_review.persisted?) do %>
+          <i class="fa fa-check fa-lg"></i> Submit review
+        <% end %>
+      </div>
+    </div>

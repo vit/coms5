@@ -35,79 +35,13 @@
       </dd>
     </dl>
 
-    <% if @section_journal_chief_editor_office %>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        Chief Editor Decision
-      </div>
-      <div class="panel-body">
-        <%# if @decision.persisted? %>
-        <% if @decision %>
-          <dl class="dl-horizontal">
-            <dt>Decision:</dt>
-            <dd><%= @decision.decision %></dd>
-            <dt>Comment:</dt>
-            <dd><%= @decision.comment %></dd>
-            <dt>State:</dt>
-            <dd><%= @decision.aasm_state %></dd>
-          </dl>
-        <% else %>
-          <p>Not made yet</p>
-        <% end %>
+    <%= render 'submission_r_invite_block' if @section_journal_reviewer_office %>
+    <%= render 'submission_r_review_block' if @section_journal_reviewer_office && @my_invite && @my_invite.accepted? %>
 
-        <%= link_to "#", data: { toggle: "modal", target: "#decisionModal" }, :class => 'btn btn-primary', disabled: !(@decision && @decision.may_sm_submit?) do %>
-          <i class="fa fa-edit fa-lg"></i> Edit decision
-        <% end %>
+    <%= render 'submission_ce_decision_block' if @section_journal_chief_editor_office %>
+    <%= render 'submission_invites_block' if @section_journal_chief_editor_office %>
 
-        <%= link_to journal_ce_submission_path(@submission, op: :submit_decision), method: :put, data: { confirm: 'Are you sure your decision is ready?' }, :class => 'btn btn-success', :remote => true, disabled: !(@decision && @decision.may_sm_submit? && @decision.persisted?) do %>
-          <i class="fa fa-check fa-lg"></i>
-          Submit decision
-        <% end %>
-      </div>
-    </div>
-    <% end %>
-
-    <% if @section_journal_chief_editor_office %>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        Reviewer Invites
-      </div>
-      <div class="panel-body">
-        <%#= @submission.reviewer_invites.map(&:inspect) %>
-        <ul class="list-group">
-          <% @submission.reviewer_invites.each do |ri| %>
-            <li class="list-group-item">
-
-              <%= link_to journal_ce_submission_path(@submission, op: 'drop_reviewer_invite', reviewer_id: ri.user.id), method: :put, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger btn-xs pull-right', remote: true,
-                  :disabled => !ri.may_sm_destroy? do %>
-                &times;
-              <% end %>
-
-              <%= link_to journal_ce_submission_path(@submission, op: 'activate_reviewer_invite', reviewer_id: ri.user.id), method: :put, data: { confirm: 'Are you sure?' }, :class => 'btn btn-success btn-xs pull-right', remote: true,
-                  :disabled => !ri.may_sm_activate? do %>
-                <i class="fa fa-check"></i> Activate
-              <% end %>
-
-              <p>
-                <%#= ri.user.full_name %>
-                <%= link_to profile_path(ri.user), target: "_blank" do %>
-                  <i class="fa fa-user"></i> <%= ri.user.full_name -%>
-                <% end %>
-                | <%= ri.aasm_state %>
-              </p>
-            </li>
-          <% end %>
-        </ul>
-
-
-        <%= link_to "#", data: { toggle: "modal", target: "#addInvitationsModal" }, :class => 'btn btn-primary', disabled: false do %>
-          <i class="fa fa-plus fa-lg"></i> Create invites
-        <% end %>
-
-      </div>
-    </div>
-    <% end %>
-
+  </div>
 
     <ul class="list-group">
       <% @submission.revisions.order(:revision_n).reverse_order.each do |revision| %>
@@ -133,11 +67,13 @@
         </li>
       <% end %>
     </ul>
-  </div>
+  <!-- /div -->
 
 </div>
 
-<%#= render 'edit_reviewer_invites_dialog' %>
-<%#= render 'edit_decision_dialog' %>
+<%= render 'edit_reviewer_invites_dialog' if @section_journal_chief_editor_office %>
+<%= render 'edit_decision_dialog' if @section_journal_chief_editor_office %>
+
+<%= render 'edit_review_dialog' if @section_journal_reviewer_office %>
 
 

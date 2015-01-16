@@ -22,7 +22,8 @@ class Journal::Journal < ActiveRecord::Base
 		self.appointments.where(role_name: 'reviewer').map(&:user)
 	end
 	def user_reviewer_invites user
-		self.submissions.joins(:reviewer_invites).where(journal_reviewer_invites: {user_id: user.id})
+		self.submissions.joins(:reviewer_invites).where(journal_reviewer_invites: {user_id: user.id}).where.not(journal_reviewer_invites: {aasm_state: 'inactive'})
+#		self.submissions.joins(:reviewer_invites).where(journal_reviewer_invites: {user_id: user.id})
 #		self.submissions.joins(:reviewer_invites).where(journal_reviewer_invites: {user_id: user.id}).map(&:submission)
 #		self.appointments.where(role_name: 'reviewer', user: user).map(&:journal)
 	end

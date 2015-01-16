@@ -4,7 +4,7 @@ class Journal::Revision < ActiveRecord::Base
   belongs_to :submission
   has_many :submission_files
   has_one :revision_decision
-  has_one :reviews
+  has_many :reviews
 
 	aasm do
 		state :draft, initial: true
@@ -31,6 +31,14 @@ class Journal::Revision < ActiveRecord::Base
 			transitions :from => :under_review, :to => :under_review
 		end
 
+		event :sm_create_review do
+			after do |data|
+				review = reviews.build(data)
+				review.save!
+			end
+			transitions :from => :under_review, :to => :under_review
+		end
+
 		event :sm_apply_decision do
 			after do
 				submission.sm_apply_decision!
@@ -39,29 +47,6 @@ class Journal::Revision < ActiveRecord::Base
 			transitions :from => :under_review, :to => :accepted, :if => (-> {revision_decision.decision=='accept'})
 			transitions :from => :under_review, :to => :need_rework, :if => (-> {revision_decision.decision=='rework'})
 		end
-
-=begin
-		event :sm_rework do
-			after do
-				submission.sm_rework!
-			end
-			transitions :from => :under_review, :to => :need_rework
-		end
-
-		event :sm_reject do
-			after do
-				submission.sm_reject!
-			end
-			transitions :from => :under_review, :to => :rejected
-		end
-
-		event :sm_accept do
-			after do
-				submission.sm_accept!
-			end
-			transitions :from => :under_review, :to => :accepted
-		end
-=end
 
 		event :sm_destroy do
 			after do
@@ -83,6 +68,10 @@ class Journal::Revision < ActiveRecord::Base
 		end
 =end
 
+	end
+
+	def user_review user
+		reviews.find_by(user: user)
 	end
 
 	def get_file_by_type(file_type = 'author_file')

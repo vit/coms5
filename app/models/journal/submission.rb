@@ -86,6 +86,10 @@ class Journal::Submission < ActiveRecord::Base
 
   end
 
+  def user_invite user
+    reviewer_invites.find_by(user: user)
+  end
+
 private
     def create_new_revision
         self.revision_seq += 1
