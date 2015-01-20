@@ -13,7 +13,7 @@
       <div class="modal-body">
 
         <%#= @submission.reviewer_invites.map(&:inspect) %>
-        <%= form_tag journal_ce_submission_path(@submission), :method => :put, remote: true, :cclass => "form-inline", :class => "form-horizontal", :rrole => "form" do %>
+        <%= form_tag journal_ce_submission_path(@submission), :method => :put, remote: true, :cclass => "form-inline", :class => "form-horizontal", :rrole => "form", :onsubmit => "$('body').removeClass('modal-open'); return true;" do %>
           <%= hidden_field_tag 'op', 'add_reviewer_invites' %>
           <% @journal.reviewers.each_with_index do |member, index| %>
             <div class="form-group">
@@ -34,7 +34,7 @@
           <div class="form-group">
             <div cclass="col-sm-offset-2 col-sm-10">
               <%#= f.submit :class => 'btn btn-success' %>
-              <%= button_tag :class => 'btn btn-success' do %>
+              <%= button_tag ddata: { dismiss: "modal" }, :class => 'btn btn-success' do %>
                 <i class="fa fa-check fa-lg"></i> Add
               <% end %>
               <%= link_to nil, data: { dismiss: "modal" }, :class => 'btn btn-warning' do %>
