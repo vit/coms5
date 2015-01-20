@@ -29,7 +29,7 @@
       <dd><%= @submission.abstract %></dd>
       <dt>User:</dt>
       <dd>
-        <%= link_to profile_path(@submission.user) do %>
+        <%= link_to profile_path(@submission.user), target: '_blank' do %>
           <i class="fa fa-user"></i> <%= @submission.user.full_name %>
         <% end %>
       </dd>
@@ -44,8 +44,11 @@
   </div>
 
     <ul class="list-group">
-      <% @submission.revisions.order(:revision_n).reverse_order.each do |revision| %>
+    <!-- div class="list-group" -->
+      <!-- % @submission.revisions.order(:revision_n).reverse_order.each do |revision| % -->
+      <% @submission.revisions.order(:revision_n).reverse_order.select{|r| !r.draft? }.each do |revision| %>
         <li class="list-group-item">
+        <!-- div class="list-group-item" -->
           <dl class="dl-horizontal">
             <dt>Revision:</dt>
             <dd>#<%= revision.revision_n %></dd>
@@ -64,10 +67,72 @@
               <dd><%= revision.revision_decision.comment %></dd>
             <% end %>
           </dl>
+
+          <% if @section_journal_chief_editor_office %>
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                Reviews
+              </div>
+                <!-- ul class="list-group" -->
+                <div class="list-group">
+                  <% revision.reviews.each do |r| %>
+                    <!-- li><%= r.inspect %></li -->
+                    <!--div><%= r.inspect %></div -->
+                    <div class="list-group-item">
+                      <dl class="dl-horizontal">
+                        <dt>Reviewer:</dt>
+                        <dd>
+                          <%= link_to profile_path(r.user), target: '_blank' do %>
+                            <i class="fa fa-user"></i> <%= r.user.full_name %>
+                          <% end %>
+                        </dd>
+                        <dt>Decision:</dt>
+                        <dd><%= r.decision %></dd>
+                        <dt>Comment:</dt>
+                        <dd><%= r.comment %></dd>
+                        <dt>State:</dt>
+                        <dd><%= r.aasm_state %></dd>
+                      </dl>
+                    </div>
+                  <% end %>
+                </div>
+                <!-- /ul -->
+            </div>
+          <% end %>
+
+
+          <% if @section_journal_reviewer_office %>
+            <% if r=revision.user_review(current_user) %>
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  My Review
+                </div>
+                <div class="panel-body">
+                  <dl class="dl-horizontal">
+                    <dt>Reviewer:</dt>
+                    <dd>
+                      <%= link_to profile_path(r.user), target: '_blank' do %>
+                        <i class="fa fa-user"></i> <%= r.user.full_name %>
+                      <% end %>
+                    </dd>
+                    <dt>Decision:</dt>
+                    <dd><%= r.decision %></dd>
+                    <dt>Comment:</dt>
+                    <dd><%= r.comment %></dd>
+                    <dt>State:</dt>
+                    <dd><%= r.aasm_state %></dd>
+                  </dl>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+
+        <!-- /div -->
         </li>
       <% end %>
+    <!-- /div -->
     </ul>
-  <!-- /div -->
+  <!-- /div --->
 
 </div>
 
