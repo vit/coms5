@@ -57,6 +57,6 @@ gem 'carrierwave'
 #gem 'bootstrap-modal-rails'
 #gem 'compass-rails'
 
-gem 'eidos', '~> 0.0.0'
+#gem 'eidos', '~> 0.0.0'
 
 
