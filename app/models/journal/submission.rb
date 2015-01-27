@@ -18,7 +18,7 @@ class Journal::Submission < ActiveRecord::Base
     state :draft
     state :revised_draft
     state :under_review
-    state :need_rework
+    state :need_revise
     state :rejected
     state :accepted
     state :nonexistent
@@ -54,11 +54,11 @@ class Journal::Submission < ActiveRecord::Base
       transitions :from => :revised_draft, :to => :under_review
     end
 
-    event :sm_rework do
+    event :sm_revise do
       after do
         create_new_revision
       end
-      transitions :from => :need_rework, :to => :revised_draft
+      transitions :from => :need_revise, :to => :revised_draft
     end
 
     event :sm_destroy do
@@ -80,7 +80,7 @@ class Journal::Submission < ActiveRecord::Base
       end
       transitions :from => :under_review, :to => :rejected, :if => (-> {last_submitted_revision.rejected?})
       transitions :from => :under_review, :to => :accepted, :if => (-> {last_submitted_revision.accepted?})
-      transitions :from => :under_review, :to => :need_rework, :if => (-> {last_submitted_revision.need_rework?})
+      transitions :from => :under_review, :to => :need_revise, :if => (-> {last_submitted_revision.need_revise?})
     end
 
 

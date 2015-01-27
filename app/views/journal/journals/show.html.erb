@@ -1,15 +1,15 @@
 <div class="page-header">
   <%= link_to journal_journals_path, :class => 'btn btn-default' do %>
-    <span class="glyphicon glyphicon-list-alt"></span>
+    <i class="fa fa-level-up fa-lg"></i>
     <%= t('journal.journals.list_title') %>
   <% end %>
   <%= link_to edit_journal_journal_path(@journal_journal), :class => 'btn btn-primary' do %>
-    <span class="glyphicon glyphicon-pencil"></span>
-    Edit
+    <i class="fa fa-edit fa-lg"></i>
+    <%= t('journal.show_journal.edit_btn') %>
   <% end if current_user && current_user.is_admin? %>
   <%= link_to @journal_journal, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger' do %>
-    <i class="fa fa-bomb"></i>
-    Destroy
+    <i class="fa fa-trash-o fa-lg"></i>
+    <%= t('journal.show_journal.destroy_btn') %>
   <% end if current_user && current_user.is_admin? %>
 
 

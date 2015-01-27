@@ -1,8 +1,6 @@
 class Journal::ReviewerInvite < ActiveRecord::Base
 	include AASM
 
-#	Decisions = %w[rework accept reject]
-
 #	validates :decision, :inclusion=> { :in => Decisions }
 #	validates_inclusion_of :decision, :in => Decisions
 

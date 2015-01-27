@@ -9,7 +9,7 @@ class Journal::Revision < ActiveRecord::Base
 	aasm do
 		state :draft, initial: true
 		state :under_review
-		state :need_rework
+		state :need_revise
 		state :rejected
 		state :accepted
 		state :nonexistent
@@ -45,7 +45,7 @@ class Journal::Revision < ActiveRecord::Base
 			end
 			transitions :from => :under_review, :to => :rejected, :if => (-> {revision_decision.decision=='reject'})
 			transitions :from => :under_review, :to => :accepted, :if => (-> {revision_decision.decision=='accept'})
-			transitions :from => :under_review, :to => :need_rework, :if => (-> {revision_decision.decision=='rework'})
+			transitions :from => :under_review, :to => :need_revise, :if => (-> {revision_decision.decision=='revise'})
 		end
 
 		event :sm_destroy do
@@ -54,7 +54,7 @@ class Journal::Revision < ActiveRecord::Base
 				self.destroy!
 			end
 #			transitions :from => :draft, :to => :nonexistent
-#			transitions :from => %i[draft under_review need_rework rejected accepted nonexistent], :to => :nonexistent
+#			transitions :from => %i[draft under_review need_revise rejected accepted nonexistent], :to => :nonexistent
 			transitions :to => :nonexistent
 		end
 
@@ -64,7 +64,7 @@ class Journal::Revision < ActiveRecord::Base
 			after do
 				submission.sm_revert_to_review!
 			end
-			transitions :from => [:review, :rework, :rejected, :accepted], :to => :review
+			transitions :from => [:review, :revise, :rejected, :accepted], :to => :review
 		end
 =end
 

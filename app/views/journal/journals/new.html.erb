@@ -1,9 +1,9 @@
 <div class="page-header">
   <%= link_to journal_journals_path, :class => 'btn btn-default' do %>
-    <span class="glyphicon glyphicon-list-alt"></span>
-    Back
+    <i class="fa fa-level-up fa-lg"></i>
+    <%= t('journal.journals.list_title') %>
   <% end %>
-  <h1>New journal_journal</h1>
+  <h1><%= t('journal.new_journal.page_title') %></h1>
 </div>
 
 <%= render 'form' %>

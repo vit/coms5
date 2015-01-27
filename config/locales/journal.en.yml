@@ -5,6 +5,7 @@ en:
       journals: Journals
       author_submissions: My Papers
       ce_office_title: Chief Editor
+      r_office_title: Reviewer
     nav:
       home: Home
       journals: Journals
@@ -13,6 +14,12 @@ en:
       login: Login
     journals:
       list_title: Journals list
+      new_journal_btn: New Journal
+    new_journal:
+      page_title: New journal
+    show_journal:
+      edit_btn: Edit
+      destroy_btn: Delete
     journal:
       title: Title
       description: Description

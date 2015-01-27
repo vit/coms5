@@ -5,6 +5,7 @@ ru:
       journals: Журналы
       author_submissions: Мои статьи
       ce_office_title: Гл. редактор
+      r_office_title: Рецензент
     nav:
       home: Начало
       journals: Журналы
@@ -13,6 +14,12 @@ ru:
       login: Вход
     journals:
       list_title: Список журналов
+      new_journal_btn: Новый Журнал
+    new_journal:
+      page_title: Новый журнал
+    show_journal:
+      edit_btn: Изменить
+      destroy_btn: Удалить
     journal:
       title: Название
       description: Описание

@@ -17,9 +17,9 @@
   <% end #if @journal_submission.may_sm_submit? %>
 
   
-  <%= link_to journal_submission_path(@journal_submission, op: :rework), method: :put, data: { confirm: 'Are you sure you are want to make new revision of the paper?' }, :class => 'btn btn-success', :disabled => !@journal_submission.may_sm_rework? do %>
+  <%= link_to journal_submission_path(@journal_submission, op: :revise), method: :put, data: { confirm: 'Are you sure you are want to make new revision of the paper?' }, :class => 'btn btn-success', :disabled => !@journal_submission.may_sm_revise? do %>
     <i class="fa fa-magic fa-lg"></i>
-    Rework
+    revise
   <% end #if @journal_submission.may_sm_unsubmit? %>
 
 
