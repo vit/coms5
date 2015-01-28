@@ -20,17 +20,101 @@ en:
     show_journal:
       edit_btn: Edit
       destroy_btn: Delete
+    edit_journal:
+      page_title: Edit journal
+      show_btn: Show journal
     journal:
       title: Title
       description: Description
       slug: Slug
       owner: Owner
+    journal_form:
+      title: Title
+      description: Description
+      submit_new: Create
+      submit_update: Update
     submissions:
       add_new: New Paper
       my_list_title: My Papers
-    submission:
-      my_title: My Paper
-      new_paper: New Paper
-      edit_paper: Edit Paper
+    edit_submission:
+      page_title: Edit paper
+      show_btn: Show journal
+    my_submission:
+      page_title: My Paper
+      delete_btn: Delete
+      revise_btn: Revise
+      submit_btn: Submit
+      edit_btn: Edit
+      #new_paper: New Paper
+      #edit_paper: Edit Paper
+    new_submission:
+      page_title: New Paper
+    submission_form:
+      form_title: Paper text data
+      title: Title
+      abstract: Abstract
+      submit_new: Create
+      submit_update: Update
+    revision_form:
+      form_title: Last revision data
+      file_type: File type
+      submit_new: Upload file
+      submit_update: Replace file
+      download_file: See uploaded file
     ce:
-      list_title: Submitted Papers
+      list_title: Submitted papers
+    r:
+      list_title: Assigned papers
+    office_submission:
+      page_title: Submitted paper
+      title: Title
+      abstract: Abstract
+      user: User
+      revisions:
+        block_title: Revisions
+        revision: Revision
+        files: Files
+        ce_comment: Chief editor comment
+        reviews: Reviews
+        my_review: My review
+        reviewer: Reviewer
+        decision: Decision
+        comment: Comment
+      r_invite:
+        block_title: Reviewer invitation
+        inv_txt: To review you have to click "Accept" button before. Or click "Decline" button, if you do not want to review this paper.
+        accept_btn: Accept
+        decline_btn: Decline
+        not_invited_txt: You are not invited to review this paper yet.
+        accepted_txt: You have accepted the invitation
+        declined_txt: You have declined the invitation
+        cancelled_txt: The invitation is cancelled
+        wrong_state_txt: Wrong state of the invitation
+      ce_decision:
+        block_title: Chief Editor Decision
+        decision: Decision
+        comment: Comment
+        not_made: Not made yet
+        edit_btn: Edit decision
+        submit_btn: Submit decision
+        save_btn: Save
+        cancel_btn: Cancel
+      r_review:
+        block_title: My Review
+        decision: Decision
+        comment: Comment
+        not_made: Not made yet
+        edit_btn: Edit review
+        submit_btn: Submit review
+        save_btn: Save
+        cancel_btn: Cancel
+      ce_invites:
+        block_title: Reviewer invitations
+        create_btn: Create invitations
+        add_btn: Add
+        cancel_btn: Cancel
+        activate_btn: Activate
+    role_name:
+      author: Author
+      chief_editor: Chief editor
+      reviewer: Reviewer

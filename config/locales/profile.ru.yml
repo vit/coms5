@@ -1,0 +1,7 @@
+ru:
+  profile:
+    page_title: Профиль пользователя
+    user_full_name: Полное имя пользователя
+    part:
+      journal_appointments:
+        block_title: Назначения в журналы

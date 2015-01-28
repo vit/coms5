@@ -4,22 +4,22 @@
     <!-- i class="fa fa-arrow-left"></i -->
     <!-- i class="fa fa-list fa-lg"></i -->
     <i class="fa fa-level-up fa-lg"></i>
-    Papers list
+    <%= t('journal.submissions.my_list_title') %>
   <% end %>
   <%= link_to edit_journal_submission_path(@journal_submission), :class => 'btn btn-primary', :disabled => !@journal_submission.may_sm_update? do %>
     <!-- i class="fa fa-pencil"></i -->
     <i class="fa fa-edit fa-lg"></i>
-    Edit
+    <%= t('journal.my_submission.edit_btn') %>
   <% end #if @journal_submission.may_sm_update? %>
   <%= link_to journal_submission_path(@journal_submission, op: :submit), method: :put, data: { confirm: 'Are you sure your paper is ready for submittion?' }, :class => 'btn btn-success', :disabled => !@journal_submission.may_sm_submit? do %>
     <i class="fa fa-check fa-lg"></i>
-    Submit
+    <%= t('journal.my_submission.submit_btn') %>
   <% end #if @journal_submission.may_sm_submit? %>
 
   
   <%= link_to journal_submission_path(@journal_submission, op: :revise), method: :put, data: { confirm: 'Are you sure you are want to make new revision of the paper?' }, :class => 'btn btn-success', :disabled => !@journal_submission.may_sm_revise? do %>
     <i class="fa fa-magic fa-lg"></i>
-    revise
+    <%= t('journal.my_submission.revise_btn') %>
   <% end #if @journal_submission.may_sm_unsubmit? %>
 
 
@@ -32,9 +32,9 @@
 
   <%= link_to @journal_submission, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-danger', :disabled => !@journal_submission.may_sm_destroy? do %>
     <i class="fa fa-trash-o fa-lg"></i>
-    Destroy
+    <%= t('journal.my_submission.delete_btn') %>
   <% end #if @journal_submission.may_sm_destroy? %>
-  <h1><%= t('journal.submission.my_title') %></h1>
+  <h1><%= t('journal.my_submission.page_title') %></h1>
 </div>
 
 

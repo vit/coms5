@@ -5,18 +5,20 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" iid="myModalLabel">Review</h4>
+        <h4 class="modal-title" iid="myModalLabel">
+          <%= t('journal.office_submission.r_review.block_title') %>
+        </h4>
       </div>
       <div class="modal-body">
         <%= form_for @my_review, url: journal_r_submission_path(@submission), method: :put, remote: true, :html => { :class => "form-horizontal", :role => "form", :onsubmit => "$('body').removeClass('modal-open'); return true;"} do |f| %>
           <div class="form-group">
-            <%= f.label :decision, :class => "col-sm-2 control-label" %>
+            <%= f.label t('journal.office_submission.r_review.decision'), :class => "col-sm-2 control-label" %>
             <div class="col-sm-10">
               <%= f.select :decision, options_for_select(Journal::RevisionDecision::Decisions, @decision.decision), class: "form-control" %>
             </div>
           </div>
           <div class="form-group">
-            <%= f.label :comment, :class => "col-sm-2 control-label" %>
+            <%= f.label t('journal.office_submission.r_review.comment'), :class => "col-sm-2 control-label" %>
             <div class="col-sm-10">
               <%= f.text_area :comment, :class => "form-control" %>
             </div>
@@ -25,10 +27,12 @@
             <div class="col-sm-offset-2 col-sm-10">
               <%#= f.submit :class => 'btn btn-success' %>
               <%= f.button ddata: { dismiss: "modal" }, :class => 'btn btn-success' do %>
-                <i class="fa fa-check fa-lg"></i> Save
+                <i class="fa fa-check fa-lg"></i>
+                <%= t('journal.office_submission.r_review.save_btn') %>
               <% end %>
               <%= link_to nil, data: { dismiss: "modal" }, :class => 'btn btn-warning' do %>
-                <i class="fa fa-times fa-lg"></i> Cancel
+                <i class="fa fa-times fa-lg"></i>
+                <%= t('journal.office_submission.r_review.cancel_btn') %>
               <% end %>
             </div>
           </div>

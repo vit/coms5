@@ -8,7 +8,9 @@
 
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title" iid="myModalLabel">Reviewer Invites</h4>
+        <h4 class="modal-title" iid="myModalLabel">
+          <%= t('journal.office_submission.ce_invites.block_title') %>
+        </h4>
       </div>
       <div class="modal-body">
 
@@ -35,10 +37,12 @@
             <div cclass="col-sm-offset-2 col-sm-10">
               <%#= f.submit :class => 'btn btn-success' %>
               <%= button_tag ddata: { dismiss: "modal" }, :class => 'btn btn-success' do %>
-                <i class="fa fa-check fa-lg"></i> Add
+                <i class="fa fa-check fa-lg"></i>
+                <%= t('journal.office_submission.ce_invites.add_btn') %>
               <% end %>
               <%= link_to nil, data: { dismiss: "modal" }, :class => 'btn btn-warning' do %>
-                <i class="fa fa-times fa-lg"></i> Cancel
+                <i class="fa fa-times fa-lg"></i>
+                <%= t('journal.office_submission.ce_invites.cancel_btn') %>
               <% end %>
             </div>
           </div>

@@ -20,17 +20,101 @@ ru:
     show_journal:
       edit_btn: Изменить
       destroy_btn: Удалить
+    edit_journal:
+      page_title: Изменить данные
+      show_btn: Показать журнал
     journal:
       title: Название
       description: Описание
       slug: Slug
       owner: Владелец
+    journal_form:
+      title: Название
+      description: Описание
+      submit_new: Создать
+      submit_update: Сохранить
     submissions:
       add_new: Новая статья
       my_list_title: Мои статьи
-    submission:
-      my_title: Моя статья
-      new_paper: Новая статья
-      edit_paper: Изменение статьи
+    edit_submission:
+      page_title: Изменение статьи
+      show_btn: Показать статью
+    my_submission:
+      page_title: Моя статья
+      delete_btn: Удалить
+      revise_btn: Доработать
+      submit_btn: Подать
+      edit_btn: Изменить
+      #new_paper: Новая статья
+      #edit_paper: Изменение статьи
+    new_submission:
+      page_title: Новая статья
+    submission_form:
+      form_title: Текстовые данные статьи
+      title: Название
+      abstract: Аннотация
+      submit_new: Создать
+      submit_update: Сохранить
+    revision_form:
+      form_title: Данные последней ревизии
+      file_type: Тип файла
+      submit_new: Загрузить файл
+      submit_update: Заменить файл
+      download_file: Посмотреть загруженный файл
     ce:
       list_title: Поданные статьи
+    r:
+      list_title: Статьи для рецензирования
+    office_submission:
+      page_title: Поданная статья
+      title: Название
+      abstract: Аннотация
+      user: Пользователь
+      revisions:
+        block_title: Ревизии
+        revision: Ревизия
+        files: Файлы
+        ce_comment: Комментарий главного редактора
+        reviews: Рецензии
+        my_review: Моя рецензия
+        reviewer: Рецензент
+        decision: Решение
+        comment: Комментарии
+      r_invite:
+        block_title: Приглашение к рецензированию
+        inv_txt: Чтобы рецензировать, Вам нужно выразить согласие, нажав "Принять". Нажмите "Отклонить", если Вы не хотите рецензировать эту статью.
+        accept_btn: Принять
+        decline_btn: Отклонить
+        not_invited_txt: Вас еще не пригласили рецензировать эту статью.
+        accepted_txt: Вы приняли приглашение
+        declined_txt: Вы отклонили приглашение
+        cancelled_txt: Приглашение было отозвано
+        wrong_state_txt: Неверное состояние приглашения
+      ce_decision:
+        block_title: Решение главного редактора
+        decision: Решение
+        comment: Комментарии
+        not_made: Еще не принято
+        edit_btn: Редактировать решение
+        submit_btn: Подать решение
+        save_btn: Сохранить
+        cancel_btn: Не сохранять
+      r_review:
+        block_title: Моя рецензия
+        decision: Решение
+        comment: Комментарии
+        not_made: Еще не написана
+        edit_btn: Редактировать рецензию
+        submit_btn: Подать рецензию
+        save_btn: Сохранить
+        cancel_btn: Не сохранять
+      ce_invites:
+        block_title: Приглашения рецензентов
+        create_btn: Создать приглашения
+        add_btn: Добавить
+        cancel_btn: Отменить
+        activate_btn: Активировать
+    role_name:
+      author: Автор
+      chief_editor: Главный редактор
+      reviewer: Рецензент

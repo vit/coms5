@@ -1,7 +1,7 @@
 
 <div class="panel panel-default ppanel-primary ccol-sm-offset-2 ccol-sm-10">
   <div class="panel-heading">
-    <h3 class="panel-title">Submission text data</h3>
+    <h3 class="panel-title"><%= t('journal.submission_form.form_title') %></h3>
   </div>
   <div class="panel-body">
 
@@ -11,22 +11,30 @@
 
       <%= f.hidden_field :journal_id, :class => "form-control" %>
   <div class="form-group">
-    <%= f.label :title, :class => "col-sm-2 control-label" %>
+    <%= f.label t('journal.submission_form.title'), :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
       <%= f.text_field :title, :class => "form-control" %>
     </div>
   </div>
   <div class="form-group">
-    <%= f.label :abstract, :class => "col-sm-2 control-label" %>
+    <%= f.label t('journal.submission_form.abstract'), :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
       <%= f.text_area :abstract, :class => "form-control" %>
     </div>
   </div>
+
+  <% if @journal_submission.may_sm_update? %>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-      <%= f.submit :class => "btn btn-primary" %>
+      <%#= f.submit :class => "btn btn-primary" %>
+      <%= f.button :class => "btn btn-success" do %>
+        <i class="fa fa-check fa-lg"></i>
+        <%= t('journal.submission_form.submit_'+(@journal_submission.persisted? ? 'update' : 'new') ) %>
+      <% end %>
     </div>
   </div>
+  <% end %>
+
 <% end %>
 
 </div>

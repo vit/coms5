@@ -14,6 +14,14 @@ class Journal::Revision < ActiveRecord::Base
 		state :accepted
 		state :nonexistent
 
+		event :sm_update do
+		#	after do |data|
+		#		self.update data
+		#		self.save
+		#	end
+			transitions :from => :draft, :to => :draft
+		end
+
 		event :sm_submit do
 			transitions :from => :draft, :to => :under_review
 		end

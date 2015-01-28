@@ -1,6 +1,6 @@
     <div class="panel panel-default">
       <div class="panel-heading">
-        Reviewer Invite
+        <%= t('journal.office_submission.r_invite.block_title') %>
       </div>
       <div class="panel-body">
 
@@ -12,25 +12,36 @@
           </dl>
 
           <% if @my_invite.pending? %>
-            <p>To review you have to click "Accept" button before. Or click "Decline" button, if you do not want to review this paper.</p>
+            <p><%= t('journal.office_submission.r_invite.inv_txt') %></p>
             <%= link_to journal_r_submission_path(@submission, op: :accept_my_reviewer_invite), method: :put, data: { confirm: 'Are you sure your want to accept this invite?' }, :class => 'btn btn-success', :remote => true, disabled: !(@my_invite && @my_invite.may_sm_accept?) do %>
-              <i class="fa fa-check fa-lg"></i> Accept
+              <i class="fa fa-check fa-lg"></i>
+              <%= t('journal.office_submission.r_invite.accept_btn') %>
             <% end %>
             <%= link_to journal_r_submission_path(@submission, op: :decline_my_reviewer_invite), method: :put, data: { confirm: 'Are you sure your want to decline this invite?' }, :class => 'btn btn-danger', :remote => true, disabled: !(@my_invite && @my_invite.may_sm_decline?) do %>
-              <i class="fa fa-times fa-lg"></i> Decline
+              <%= t('journal.office_submission.r_invite.decline_btn') %>
             <% end %>
           <% elsif @my_invite.accepted? %>
-            <p>You have accepted the invite</p>
+            <p>
+              <%= t('journal.office_submission.r_invite.accepted_txt') %>
+            </p>
           <% elsif @my_invite.declined? %>
-            <p>You have declined the invite</p>
+            <p>
+              <%= t('journal.office_submission.r_invite.declined_txt') %>
+            </p>
           <% elsif @my_invite.cancelled? %>
-            <p>The invite is cancelled</p>
+            <p>
+              <%= t('journal.office_submission.r_invite.cancelled_txt') %>
+            </p>
           <% else %>
-            <p>Wrong state of the invite</p>
+            <p>
+              <%= t('journal.office_submission.r_invite.wrong_state_txt') %>
+            </p>
           <% end %>
 
         <% else %>
-          <p>You are not invited to review this paper yet</p>
+          <p>
+            <%= t('journal.office_submission.r_invite.not_invited_txt') %>
+          </p>
         <% end %>
 
       </div>

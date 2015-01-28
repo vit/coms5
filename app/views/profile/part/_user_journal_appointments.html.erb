@@ -1,7 +1,9 @@
 
 <% my_journals = current_user ? current_user.owned_and_managed_journals.map {|j| [j.title, j.id] } : [] %>
 
-<h3>Journal appointments</h3>
+<h3>
+    <%= t('profile.part.journal_appointments.block_title') %>
+</h3>
 
 <ul class="list-group">
 <% user.journal_appointments.each do |a| %>
@@ -13,7 +15,10 @@
             <% end %>
         <% end %>
 
-        <b><%= a.role_name %></b> <i>in</i>
+        <b><%= a.role_name %></b>
+        <i>
+            <%= t('profile.part.journal_appointments.in') %>
+        </i>
         <%= link_to a.journal do %>
             <i class="fa fa-hand-o-right"></i> <%= a.journal.title %>
         <% end %>

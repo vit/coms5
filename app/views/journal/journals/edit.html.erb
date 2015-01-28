@@ -1,13 +1,13 @@
 <div class="page-header">
   <%= link_to journal_journals_path, :class => 'btn btn-default' do %>
     <i class="fa fa-level-up fa-lg"></i>
-    Back
+    <%= t('journal.journals.list_title') %>
   <% end %>
   <%= link_to @journal_journal, :class => 'btn btn-primary' do %>
     <i class="fa fa-info fa-lg"></i>
-    Show
+    <%= t('journal.edit_journal.show_btn') %>
   <% end %>
-  <h1>Editing journal_journal</h1>
+  <h1><%= t('journal.edit_journal.page_title') %></h1>
 </div>
 
 <%= render 'form' %>

@@ -41,8 +41,8 @@
 
     <% all_roles.each do |role| %>
       <%= link_to role[:path], class: 'btn btn-xlg btn-success' do %>
-        <i class="fa fa-user"></i><br>
-        <%= t('journal.role.name.'+role[:name]) %>
+        <i class="fa fa-user fa-2x"></i><br>
+        <%= t('journal.role_name.'+role[:name]) %>
       <% end if my_roles.include?(role[:name]) %>
     <% end %>
 

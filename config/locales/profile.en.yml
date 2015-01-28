@@ -1,0 +1,7 @@
+en:
+  profile:
+    page_title: User profile
+    user_full_name: User full name
+    part:
+      journal_appointments:
+        block_title: Journal appointments

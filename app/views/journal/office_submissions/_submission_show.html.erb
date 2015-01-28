@@ -1,13 +1,13 @@
 <div class="page-header">
   <%= link_to journal_r_path(journal_id: @journal.id), :class => 'btn btn-default' do %>
-    <i class="fa fa-list fa-lg"></i>
-    Back to the list
+    <i class="fa fa-level-up fa-lg"></i>
+    <%= t('journal.r.list_title') %>
   <% end if @section_journal_reviewer_office %>
   <%= link_to journal_ce_path(journal_id: @journal.id), :class => 'btn btn-default' do %>
-    <i class="fa fa-list fa-lg"></i>
-    Back to the list
+    <i class="fa fa-level-up fa-lg"></i>
+    <%= t('journal.ce.list_title') %>
   <% end if @section_journal_chief_editor_office %>
-  <h1><%= t('journal.office_submission.submitted_paper') %></h1>
+  <h1><%= t('journal.office_submission.page_title') %></h1>
 </div>
 
 
@@ -23,11 +23,11 @@
   <div class="panel-body">
 
     <dl class="dl-horizontal">
-      <dt>Title:</dt>
+      <dt><%= t('journal.office_submission.title') %>:</dt>
       <dd><%= @submission.title %></dd>
-      <dt>Abstract:</dt>
+      <dt><%= t('journal.office_submission.abstract') %>:</dt>
       <dd><%= @submission.abstract %></dd>
-      <dt>User:</dt>
+      <dt><%= t('journal.office_submission.user') %>:</dt>
       <dd>
         <%= link_to profile_path(@submission.user), target: '_blank' do %>
           <i class="fa fa-user"></i> <%= @submission.user.full_name %>
@@ -43,6 +43,10 @@
 
   </div>
 
+  <div class="panel-heading">
+    <%= t('journal.office_submission.revisions.block_title') %>
+  </div>
+
     <ul class="list-group">
     <!-- div class="list-group" -->
       <!-- % @submission.revisions.order(:revision_n).reverse_order.each do |revision| % -->
@@ -50,9 +54,9 @@
         <li class="list-group-item">
         <!-- div class="list-group-item" -->
           <dl class="dl-horizontal">
-            <dt>Revision:</dt>
+            <dt><%= t('journal.office_submission.revisions.revision') %>:</dt>
             <dd>#<%= revision.revision_n %></dd>
-            <dt>Files:</dt>
+            <dt><%= t('journal.office_submission.revisions.files') %>:</dt>
             <dd>
               <% revision.submission_files.each do |file| %>
                 <%= link_to file.file_data.url do %>
@@ -63,7 +67,7 @@
             <dt>State:</dt>
             <dd><%= revision.aasm_state %></dd>
             <% if revision.revision_decision %>
-              <dt>Chief editor comment:</dt>
+              <dt><%= t('journal.office_submission.revisions.ce_comment') %>:</dt>
               <dd><%= revision.revision_decision.comment %></dd>
             <% end %>
           </dl>
@@ -71,7 +75,7 @@
           <% if @section_journal_chief_editor_office %>
             <div class="panel panel-default">
               <div class="panel-heading">
-                Reviews
+                <%= t('journal.office_submission.revisions.reviews') %>
               </div>
                 <!-- ul class="list-group" -->
                 <div class="list-group">
@@ -80,15 +84,15 @@
                     <!--div><%= r.inspect %></div -->
                     <div class="list-group-item">
                       <dl class="dl-horizontal">
-                        <dt>Reviewer:</dt>
+                        <dt><%= t('journal.office_submission.revisions.reviewer') %>:</dt>
                         <dd>
                           <%= link_to profile_path(r.user), target: '_blank' do %>
                             <i class="fa fa-user"></i> <%= r.user.full_name %>
                           <% end %>
                         </dd>
-                        <dt>Decision:</dt>
+                        <dt><%= t('journal.office_submission.revisions.decision') %>:</dt>
                         <dd><%= r.decision %></dd>
-                        <dt>Comment:</dt>
+                        <dt><%= t('journal.office_submission.revisions.comment') %>:</dt>
                         <dd><%= r.comment %></dd>
                         <dt>State:</dt>
                         <dd><%= r.aasm_state %></dd>
@@ -105,19 +109,19 @@
             <% if r=revision.user_review(current_user) %>
               <div class="panel panel-default">
                 <div class="panel-heading">
-                  My Review
+                  <%= t('journal.office_submission.revisions.my_review') %>
                 </div>
                 <div class="panel-body">
                   <dl class="dl-horizontal">
-                    <dt>Reviewer:</dt>
+                    <dt><%= t('journal.office_submission.revisions.reviewer') %>:</dt>
                     <dd>
                       <%= link_to profile_path(r.user), target: '_blank' do %>
                         <i class="fa fa-user"></i> <%= r.user.full_name %>
                       <% end %>
                     </dd>
-                    <dt>Decision:</dt>
+                    <dt><%= t('journal.office_submission.revisions.decision') %>:</dt>
                     <dd><%= r.decision %></dd>
-                    <dt>Comment:</dt>
+                    <dt><%= t('journal.office_submission.revisions.comment') %>:</dt>
                     <dd><%= r.comment %></dd>
                     <dt>State:</dt>
                     <dd><%= r.aasm_state %></dd>

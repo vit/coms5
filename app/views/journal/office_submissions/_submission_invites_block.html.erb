@@ -1,6 +1,6 @@
     <div class="panel panel-default">
       <div class="panel-heading">
-        Reviewer Invites
+        <%= t('journal.office_submission.ce_invites.block_title') %>
       </div>
       <div class="panel-body">
         <%#= @submission.reviewer_invites.map(&:inspect) %>
@@ -15,7 +15,8 @@
 
               <%= link_to journal_ce_submission_path(@submission, op: 'activate_reviewer_invite', reviewer_id: ri.user.id), method: :put, data: { confirm: 'Are you sure?' }, :class => 'btn btn-success btn-xs pull-right', remote: true,
                   :disabled => !ri.may_sm_activate? do %>
-                <i class="fa fa-check"></i> Activate
+                <i class="fa fa-check"></i>
+                <%= t('journal.office_submission.ce_invites.activate_btn') %>
               <% end %>
 
               <p>
@@ -31,7 +32,8 @@
 
 
         <%= link_to "#", data: { toggle: "modal", target: "#addInvitationsModal" }, :class => 'btn btn-primary', disabled: false do %>
-          <i class="fa fa-plus fa-lg"></i> Create invites
+          <i class="fa fa-plus fa-lg"></i>
+          <%= t('journal.office_submission.ce_invites.create_btn') %>
         <% end %>
 
       </div>

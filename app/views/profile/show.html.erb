@@ -1,8 +1,9 @@
 <article>
-<h1>User profile</h1>
+<h1>
+        <%= t('profile.page_title') %>
+</h1>
 
 <div class="panel panel-default">
-        <!-- div class="panel-heading">User profile: <b><%= @user.full_name %></b></div -->
         <div class="panel-body media">
                 <div class="pull-left" href="#">
                         <!-- img class="media-object img-thumbnail" src="http://placehold.it/150x225/eeeeee" alt="" -->
@@ -10,7 +11,7 @@
                 </div>
                 <div class="media-body">
                         <h4 class="media-heading">
-                                User full name: <b><%= @user.full_name %></b>
+                                <%= t('profile.user_full_name') %>: <b><%= @user.full_name %></b>
                                 <% if user_signed_in? && current_user.id==@user.id %>
                                         <small>(<%= link_to('edit my info', edit_user_registration_path) %>)</small>
                                 <% end %>
