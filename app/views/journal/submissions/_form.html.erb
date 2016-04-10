@@ -23,7 +23,7 @@
     </div>
   </div>
 
-  <% if @journal_submission.may_sm_update? %>
+  <% if @journal_submission.may_sm_update? or not @journal_submission.persisted? %>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
       <%#= f.submit :class => "btn btn-primary" %>
